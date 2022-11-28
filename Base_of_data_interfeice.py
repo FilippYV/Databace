@@ -309,12 +309,12 @@ class Ui_MainWindow(object):
         column = 5
         self.tableWidget.setRowCount(row)
         self.tableWidget.setColumnCount(column)
-        self.tableWidget.setItem(500, 600, QTableWidgetItem("Databace"))
-        self.tableWidget.setItem(0,  0, QTableWidgetItem('Факультет'))
-        self.tableWidget.setItem(0,  1, QTableWidgetItem('Аудитория'))
-        self.tableWidget.setItem(0,  2, QTableWidgetItem('Корпус'))
-        self.tableWidget.setItem(0,  3, QTableWidgetItem('Номер телефона'))
-        self.tableWidget.setItem(0,  4, QTableWidgetItem('Фамилия'))
+        # self.tableWidget.setItem(500, 600, QTableWidgetItem("Databace"))
+        # self.tableWidget.setItem(0,  0, QTableWidgetItem('Факультет'))
+        # self.tableWidget.setItem(0,  1, QTableWidgetItem('Аудитория'))
+        # self.tableWidget.setItem(0,  2, QTableWidgetItem('Корпус'))
+        # self.tableWidget.setItem(0,  3, QTableWidgetItem('Номер телефона'))
+        # self.tableWidget.setItem(0,  4, QTableWidgetItem('Фамилия'))
         for i in range(len(x)):
             for j in range(len(x[i])):
                 self.tableWidget.setItem(i + 1, j, QTableWidgetItem(str(x[i][j])))
