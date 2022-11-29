@@ -95,12 +95,26 @@ class Ui_Add_window(object):
         self.statusbar.setObjectName("statusbar")
         Add_window.setStatusBar(self.statusbar)
 
+        self.pushButton_go = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_go.setObjectName("pushButton_add")
+        self.gridLayout.addWidget(self.pushButton_go, 2, 0, 3, 1)
+
+
         self.retranslateUi_add(Add_window)
         QtCore.QMetaObject.connectSlotsByName(Add_window)
 
-    def get_data_about_comboboox(self):
-        self.text = self.comboBox_add.currentText()
-        if self.text = ''
+    def show_lines(self):
+        self.lineEdit_add.show()
+        self.lineEdit_add_2.show()
+        self.lineEdit_add_3.show()
+        self.lineEdit_add_4.show()
+        self.lineEdit_add_5.show()
+        self.lineEdit_add_6.show()
+        self.lineEdit_add_7.show()
+        self.lineEdit_add_8.show()
+        self.lineEdit_add_9.show()
+
+
     def retranslateUi_add(self, Add_window):
         _translate = QtCore.QCoreApplication.translate
         Add_window.setWindowTitle(_translate("Add_window", "Добавить данные"))
@@ -124,4 +138,29 @@ class Ui_Add_window(object):
         self.lineEdit_add_8.setPlaceholderText(_translate("Add_window", "123"))
         self.lineEdit_add_9.setPlaceholderText(_translate("Add_window", "123"))
         self.pushButton_add.setText(_translate("Add_window", "Добавить"))
+        self.pushButton_go.setText(_translate("Add_window", "Заполнить"))
         self.pushButton_clear.setText(_translate("Add_window", "Очистить"))
+
+
+        if self.comboBox_add.currentText() == 'Пользователя':
+                self.show_lines()
+                self.lineEdit_add.setPlaceholderText("Фамилия")
+                self.lineEdit_add_2.setPlaceholderText("Имя")
+                self.lineEdit_add_3.setPlaceholderText("Отчество")
+                self.lineEdit_add_4.setPlaceholderText("Серия")
+                self.lineEdit_add_5.setPlaceholderText("Номер")
+                self.lineEdit_add_6.setPlaceholderText("Регистрация")
+                self.lineEdit_add_7.setPlaceholderText("Почта")
+                self.lineEdit_add_8.setPlaceholderText("Телефон")
+                self.lineEdit_add_9.hide()
+        elif self.comboBox_add.currentText() == 'Авиакомпанию':
+                self.show_lines()
+                self.lineEdit_add.setPlaceholderText("Название")
+                self.lineEdit_add_2.setPlaceholderText("Телефон")
+                self.lineEdit_add_3.setPlaceholderText("Сайт")
+                self.lineEdit_add_4.setPlaceholderText("Номер в рейтинге")
+                self.lineEdit_add_5.hide()
+                self.lineEdit_add_6.hide()
+                self.lineEdit_add_7.hide()
+                self.lineEdit_add_8.hide()
+                self.lineEdit_add_9.hide()

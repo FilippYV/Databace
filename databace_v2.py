@@ -1,7 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
 from main_window import main_window
-
 def create_connection_mysql_db():
     connection_db = None
     try:
@@ -25,18 +24,16 @@ def create_new_def(conn):
     conn.close()
     cursors.close()
 
-def add_new_data(conn):
-    cursors = conn.cursor()
-    create_db_sql_query = f"""describe airline;"""
-    cursors.execute(create_db_sql_query)
-    for i in cursors.fetchall():
-        print(i[0])
-    conn.close()
-    cursors.close()
+# def add_new_data(conn):
+#     cursors = conn.cursor()
+#     get_data_about_comboboox()
+#     for i in cursors.fetchall():
+#         print(i[0])
+#     conn.close()
+#     cursors.close()
 
 
 
 if __name__ == '__main__':
     conn = create_connection_mysql_db()
-    add_new_data(conn)
     main_window()
