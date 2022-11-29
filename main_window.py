@@ -160,10 +160,11 @@ class Ui_MainWindow(object):
         self.add_Window.show()
 
 
-if __name__ == '__main__':
+def main_window():
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+

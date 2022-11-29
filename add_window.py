@@ -98,6 +98,9 @@ class Ui_Add_window(object):
         self.retranslateUi_add(Add_window)
         QtCore.QMetaObject.connectSlotsByName(Add_window)
 
+    def get_data_about_comboboox(self):
+        self.text = self.comboBox_add.currentText()
+        if self.text = ''
     def retranslateUi_add(self, Add_window):
         _translate = QtCore.QCoreApplication.translate
         Add_window.setWindowTitle(_translate("Add_window", "Добавить данные"))

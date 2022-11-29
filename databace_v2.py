@@ -1,7 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
-from config import db_config
-
+from main_window import main_window
 
 def create_connection_mysql_db():
     connection_db = None
@@ -19,12 +18,25 @@ def create_connection_mysql_db():
 
 def create_new_def(conn):
     cursors = conn.cursor()
-    create_db_sql_query = """select * from plane;"""
-    print(cursors.execute(create_db_sql_query))
-    cursors.close()
+    create_db_sql_query = """show tables;"""
+    cursors.execute(create_db_sql_query)
+    for i in cursors.fetchall():
+        print(i[0])
     conn.close()
+    cursors.close()
+
+def add_new_data(conn):
+    cursors = conn.cursor()
+    create_db_sql_query = f"""describe airline;"""
+    cursors.execute(create_db_sql_query)
+    for i in cursors.fetchall():
+        print(i[0])
+    conn.close()
+    cursors.close()
 
 
-if __name__ == "__main__":
+
+if __name__ == '__main__':
     conn = create_connection_mysql_db()
-    create_new_def(conn)
+    add_new_data(conn)
+    main_window()
