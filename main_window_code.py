@@ -1,7 +1,59 @@
 # -*- coding: utf-8 -*-
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
-from add_window import Ui_Add_window
+from PyQt5 import QtCore, QtGui, QtWidgets, Qt
+from PyQt5.QtWidgets import *
+from add_window_code import Ui_Add_window
+
+import mysql.connector
+from mysql.connector import Error
+
+
+def create_connection_mysql_db():
+    connection_db = None
+    try:
+        connection_db = mysql.connector.connect(
+            host="localhost",  # your host, usually localhost
+            port="3306",
+            user="root",  # your username
+            passwd="1111",  # your password
+            db="air_ticket")  # name
+        print("Подключение к MySQL успешно выполнено")
+    except Error as db_connection_error:
+        print("Возникла ошибка: ", db_connection_error)
+    return connection_db
+
+
+def show_tables():
+    conn = create_connection_mysql_db()
+    cursors = conn.cursor()
+    create_db_sql_query = f"""show tables;"""
+    cursors.execute(create_db_sql_query)
+    tables = cursors.fetchall()
+    conn.close()
+    cursors.close()
+    for i in range(len(tables)):
+        tables[i] = tables[i][0]
+    return tables
+
+def select_max_id(name_table):
+    conn = create_connection_mysql_db()
+    cursors = conn.cursor()
+    create_db_sql_query = f"""select * from {name_table};"""
+    cursors.execute(create_db_sql_query)
+    x = cursors.fetchall()
+    conn.close()
+    cursors.close()
+    return x
+
+def select_name_table(name_table):
+    conn = create_connection_mysql_db()
+    cursors = conn.cursor()
+    create_db_sql_query = f"""describe {name_table};"""
+    cursors.execute(create_db_sql_query)
+    y = cursors.fetchall()
+    conn.close()
+    cursors.close()
+    return y
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -24,7 +76,7 @@ class Ui_MainWindow(object):
         self.Airline_tab.setObjectName("Airline_tab")
         self.gridLayout_3 = QtWidgets.QGridLayout(self.Airline_tab)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.airline_tableView = QtWidgets.QTableView(self.Airline_tab)
+        self.airline_tableView = QtWidgets.QTableWidget(self.Airline_tab)
         self.airline_tableView.setStyleSheet("")
         self.airline_tableView.setObjectName("airline_tableView")
         self.gridLayout_3.addWidget(self.airline_tableView, 0, 0, 1, 1)
@@ -33,7 +85,7 @@ class Ui_MainWindow(object):
         self.Plane_tab.setObjectName("Plane_tab")
         self.gridLayout_4 = QtWidgets.QGridLayout(self.Plane_tab)
         self.gridLayout_4.setObjectName("gridLayout_4")
-        self.plane_tableView = QtWidgets.QTableView(self.Plane_tab)
+        self.plane_tableView = QtWidgets.QTableWidget(self.Plane_tab)
         self.plane_tableView.setStyleSheet("")
         self.plane_tableView.setObjectName("plane_tableView")
         self.gridLayout_4.addWidget(self.plane_tableView, 0, 0, 1, 1)
@@ -42,16 +94,18 @@ class Ui_MainWindow(object):
         self.passport_users_tab.setObjectName("passport_users_tab")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.passport_users_tab)
         self.gridLayout_5.setObjectName("gridLayout_5")
-        self.passpor_user_tableView = QtWidgets.QTableView(self.passport_users_tab)
+        self.passpor_user_tableView = QtWidgets.QTableWidget(self.passport_users_tab)
         self.passpor_user_tableView.setStyleSheet("")
         self.passpor_user_tableView.setObjectName("passpor_user_tableView")
         self.gridLayout_5.addWidget(self.passpor_user_tableView, 0, 0, 1, 1)
+
+
         self.tab_widget.addTab(self.passport_users_tab, "")
         self.users_tab = QtWidgets.QWidget()
         self.users_tab.setObjectName("users_tab")
         self.gridLayout_6 = QtWidgets.QGridLayout(self.users_tab)
         self.gridLayout_6.setObjectName("gridLayout_6")
-        self.users_tableView = QtWidgets.QTableView(self.users_tab)
+        self.users_tableView = QtWidgets.QTableWidget(self.users_tab)
         self.users_tableView.setStyleSheet("")
         self.users_tableView.setObjectName("users_tableView")
         self.gridLayout_6.addWidget(self.users_tableView, 0, 0, 1, 1)
@@ -60,7 +114,7 @@ class Ui_MainWindow(object):
         self.airport_out_tab.setObjectName("airport_out_tab")
         self.gridLayout_7 = QtWidgets.QGridLayout(self.airport_out_tab)
         self.gridLayout_7.setObjectName("gridLayout_7")
-        self.airport_out_tableView = QtWidgets.QTableView(self.airport_out_tab)
+        self.airport_out_tableView = QtWidgets.QTableWidget(self.airport_out_tab)
         self.airport_out_tableView.setStyleSheet("")
         self.airport_out_tableView.setObjectName("airport_out_tableView")
         self.gridLayout_7.addWidget(self.airport_out_tableView, 0, 0, 1, 1)
@@ -69,7 +123,7 @@ class Ui_MainWindow(object):
         self.airport_in_tab.setObjectName("airport_in_tab")
         self.gridLayout_8 = QtWidgets.QGridLayout(self.airport_in_tab)
         self.gridLayout_8.setObjectName("gridLayout_8")
-        self.airport_in_tableView = QtWidgets.QTableView(self.airport_in_tab)
+        self.airport_in_tableView = QtWidgets.QTableWidget(self.airport_in_tab)
         self.airport_in_tableView.setStyleSheet("")
         self.airport_in_tableView.setObjectName("airport_in_tableView")
         self.gridLayout_8.addWidget(self.airport_in_tableView, 0, 0, 1, 1)
@@ -78,7 +132,7 @@ class Ui_MainWindow(object):
         self.route_tab.setObjectName("route_tab")
         self.gridLayout_9 = QtWidgets.QGridLayout(self.route_tab)
         self.gridLayout_9.setObjectName("gridLayout_9")
-        self.route_tableView = QtWidgets.QTableView(self.route_tab)
+        self.route_tableView = QtWidgets.QTableWidget(self.route_tab)
         self.route_tableView.setStyleSheet("")
         self.route_tableView.setObjectName("route_tableView")
         self.gridLayout_9.addWidget(self.route_tableView, 0, 0, 1, 1)
@@ -87,7 +141,7 @@ class Ui_MainWindow(object):
         self.flight_tab.setObjectName("flight_tab")
         self.gridLayout_10 = QtWidgets.QGridLayout(self.flight_tab)
         self.gridLayout_10.setObjectName("gridLayout_10")
-        self.flight_tableView = QtWidgets.QTableView(self.flight_tab)
+        self.flight_tableView = QtWidgets.QTableWidget(self.flight_tab)
         self.flight_tableView.setStyleSheet("")
         self.flight_tableView.setObjectName("flight_tableView")
         self.gridLayout_10.addWidget(self.flight_tableView, 0, 0, 1, 1)
@@ -96,7 +150,7 @@ class Ui_MainWindow(object):
         self.ticket_tab.setObjectName("ticket_tab")
         self.gridLayout_11 = QtWidgets.QGridLayout(self.ticket_tab)
         self.gridLayout_11.setObjectName("gridLayout_11")
-        self.ticket_tableView = QtWidgets.QTableView(self.ticket_tab)
+        self.ticket_tableView = QtWidgets.QTableWidget(self.ticket_tab)
         self.ticket_tableView.setStyleSheet("")
         self.ticket_tableView.setObjectName("ticket_tableView")
         self.gridLayout_11.addWidget(self.ticket_tableView, 0, 0, 1, 1)
@@ -121,6 +175,56 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         self.pushButton.clicked.connect(self.add_fuck)
 
+        self.airline_tableView.clicked.connect(self.update_data)
+        self.airport_in_tableView.clicked.connect(self.update_data)
+        self.airport_out_tableView.clicked.connect(self.update_data)
+        self.passpor_user_tableView.clicked.connect(self.update_data)
+        self.plane_tableView.clicked.connect(self.update_data)
+        self.route_tableView.clicked.connect(self.update_data)
+        self.ticket_tableView.clicked.connect(self.update_data)
+        self.users_tableView.clicked.connect(self.update_data)
+        m = self.update_data()
+        masssiv = [self.airline_tableView, self.airport_in_tableView,
+                   self.airport_out_tableView, self.flight_tableView,
+                   self.passpor_user_tableView, self.plane_tableView,
+                   self.route_tableView, self.ticket_tableView,
+                   self.users_tableView]
+        tables = show_tables()
+        print(tables)
+
+        for k in range(len(masssiv)):
+            x = select_max_id(tables[k])
+            y = select_name_table(tables[k])
+            masssiv[k].setRowCount(len(x)+1)
+            masssiv[k].setColumnCount(len(y))
+            for i in range(len(y)):
+                masssiv[k].setItem(0, i, QTableWidgetItem(str(y[i][0])))
+            for i in range(len(x)):
+                for j in range(len(x[i])):
+                    masssiv[k].setItem(i+1, j, QTableWidgetItem(str(x[i][j])))
+    def update_data(self):
+        masssiv = [self.airline_tableView, self.airport_in_tableView,
+                   self.airport_out_tableView, self.flight_tableView,
+                   self.passpor_user_tableView, self.plane_tableView,
+                   self.route_tableView, self.ticket_tableView,
+                   self.users_tableView]
+        tables = show_tables()
+        print(tables)
+        for k in range(len(masssiv)):
+            x = select_max_id(tables[k])
+            y = select_name_table(tables[k])
+            masssiv[k].setRowCount(len(x)+1)
+            masssiv[k].setColumnCount(len(y))
+            for i in range(len(y)):
+                masssiv[k].setItem(0, i, QTableWidgetItem(str(y[i][0])))
+            for i in range(len(x)):
+                for j in range(len(x[i])):
+                    masssiv[k].setItem(i+1, j, QTableWidgetItem(str(x[i][j])))
+
+    def passport_user(self):
+        self.passpor_user_tableView.show()
+        self.passpor_user_tableView.setColumnWidth(7, 7)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
@@ -141,7 +245,6 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(_translate("MainWindow", "Найти в базе данных"))
         self.pushButton_2.setText(_translate("MainWindow", "Удалить данные"))
 
-
     def add_fuck(self):
         self.add_Window = QtWidgets.QMainWindow()
         self.ui_add = Ui_Add_window()
@@ -149,7 +252,7 @@ class Ui_MainWindow(object):
         self.add_Window.show()
 
 
-def main_window():
+def open_main_window():
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
@@ -157,3 +260,5 @@ def main_window():
     MainWindow.show()
     sys.exit(app.exec_())
 
+if __name__ == '__main__':
+    open_main_window()
