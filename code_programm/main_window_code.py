@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets, Qt
+from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *
 from add_window_code import Ui_Add_window
 from code_programm.sort_window import Ui_sort_window
@@ -8,7 +8,7 @@ from dell_window import Ui_Dell_window
 import mysql.connector
 from mysql.connector import Error
 from search_window import Ui_Serarch_window
-from sql_line import Ui_Serch_sql
+from ui_files.sql_line import Ui_Serch_sql
 
 
 def create_connection_mysql_db():
