@@ -1,6 +1,7 @@
 import sys
 
 import mysql.connector
+from PyQt5.QtWidgets import QMessageBox
 from mysql.connector import Error
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -31,7 +32,6 @@ def select_max_id(name_table):
     return x[0][0] + 1
 
 
-
 def inster_in_bd(string):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
@@ -40,6 +40,7 @@ def inster_in_bd(string):
     conn.commit()
     conn.close()
     cursors.close()
+
 
 def add_in_passport_user_sql(data):
     conn = create_connection_mysql_db()
@@ -75,6 +76,7 @@ def create_new_def():
     conn.close()
     cursors.close()
 
+
 def select_name_t(name_table):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
@@ -85,7 +87,7 @@ def select_name_t(name_table):
     cursors.close()
     string = f'INSERT INTO {name_table} ('
     for i in range(len(y)):
-        if i != len(y)-1:
+        if i != len(y) - 1:
             string += f'{y[i][0]},'
         else:
             string += f'{y[i][0]}'
@@ -251,103 +253,104 @@ class Ui_Add_window(object):
         self.lineEdit_add_9.clear()
 
     def add_data_in_sql(self):
-        if self.comboBox_add.currentText() == 'Пользователя':
-            if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
-                    self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '' and \
-                    self.lineEdit_add_5.text() != '' and self.lineEdit_add_6.text() != '' and \
-                    self.lineEdit_add_7.text() != '' and self.lineEdit_add_8.text() != '':
-                max_id = select_max_id('passport_user')
-                data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(), self.lineEdit_add_3.text(),
-                        self.lineEdit_add_4.text(), self.lineEdit_add_5.text(), self.lineEdit_add_6.text(),
-                        self.lineEdit_add_7.text(), self.lineEdit_add_8.text()]
-                add_in_passport_user_sql(data)
-                add_in_user(data)
-        elif self.comboBox_add.currentText() == 'Авиакомпанию':
-            if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
-                    self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                max_id = select_max_id('airline')
-                data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
-                        self.lineEdit_add_3.text(),
-                        self.lineEdit_add_4.text()]
-                string = select_name_t('airline')
-                string += ' ( '
-                for i in range(len(data)):
-                    if i != len(data)-1:
-                        string += f"'{data[i]}',"
-                    else:
-                        string += f"'{data[i]}'"
-                string += ');'
-                print(string)
-                inster_in_bd(string)
-        elif self.comboBox_add.currentText() == 'Самолёт':
-            if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
-                    self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != ''and \
-                    self.lineEdit_add_5.text() != '' and self.lineEdit_add_6.text() != '':
-                max_id = select_max_id('plane')
-                data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
-                        self.lineEdit_add_3.text(), self.lineEdit_add_4.text(),
-                        self.lineEdit_add_5.text(), self.lineEdit_add_6.text()]
-                string = select_name_t('plane')
-                string += ' ( '
-                for i in range(len(data)):
-                    if i != len(data) - 1:
-                        string += f"'{data[i]}',"
-                    else:
-                        string += f"'{data[i]}'"
-                string += ');'
-                print(string)
-                inster_in_bd(string)
-        elif self.comboBox_add.currentText() == 'Аэропорт вылета':
-            if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
-                    self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                max_id = select_max_id('airport_out')
-                data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
-                        self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
-                string = select_name_t('airport_out')
-                string += ' ( '
-                for i in range(len(data)):
-                    if i != len(data) - 1:
-                        string += f"'{data[i]}',"
-                    else:
-                        string += f"'{data[i]}'"
-                string += ');'
-                print(string)
-                inster_in_bd(string)
-        elif self.comboBox_add.currentText() == 'Аэропорт назначения':
-            if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
-                    self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                max_id = select_max_id('airport_in')
-                data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
-                        self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
-                string = select_name_t('airport_in')
-                string += ' ( '
-                for i in range(len(data)):
-                    if i != len(data) - 1:
-                        string += f"'{data[i]}',"
-                    else:
-                        string += f"'{data[i]}'"
-                string += ');'
-                print(string)
-                inster_in_bd(string)
-        elif self.comboBox_add.currentText() == 'Маршрут':
-            if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
-                    self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                max_id = select_max_id('route')
-                data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
-                        self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
-                string = select_name_t('route')
-                string += ' ( '
-                for i in range(len(data)):
-                    if i != len(data) - 1:
-                        string += f"'{data[i]}',"
-                    else:
-                        string += f"'{data[i]}'"
-                string += ');'
-                print(string)
-                inster_in_bd(string)
-        elif self.comboBox_add.currentText() == 'Рейс':
-            if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
-                    self.lineEdit_add_3.text() != '':
+        try:
+            if self.comboBox_add.currentText() == 'Пользователя':
+                if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
+                        self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '' and \
+                        self.lineEdit_add_5.text() != '' and self.lineEdit_add_6.text() != '' and \
+                        self.lineEdit_add_7.text() != '' and self.lineEdit_add_8.text() != '':
+                    max_id = select_max_id('passport_user')
+                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(), self.lineEdit_add_3.text(),
+                            self.lineEdit_add_4.text(), self.lineEdit_add_5.text(), self.lineEdit_add_6.text(),
+                            self.lineEdit_add_7.text(), self.lineEdit_add_8.text()]
+                    add_in_passport_user_sql(data)
+                    add_in_user(data)
+            elif self.comboBox_add.currentText() == 'Авиакомпанию':
+                if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
+                        self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
+                    max_id = select_max_id('airline')
+                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                            self.lineEdit_add_3.text(),
+                            self.lineEdit_add_4.text()]
+                    string = select_name_t('airline')
+                    string += ' ( '
+                    for i in range(len(data)):
+                        if i != len(data) - 1:
+                            string += f"'{data[i]}',"
+                        else:
+                            string += f"'{data[i]}'"
+                    string += ');'
+                    print(string)
+                    inster_in_bd(string)
+            elif self.comboBox_add.currentText() == 'Самолёт':
+                if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
+                        self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '' and \
+                        self.lineEdit_add_5.text() != '' and self.lineEdit_add_6.text() != '':
+                    max_id = select_max_id('plane')
+                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                            self.lineEdit_add_3.text(), self.lineEdit_add_4.text(),
+                            self.lineEdit_add_5.text(), self.lineEdit_add_6.text()]
+                    string = select_name_t('plane')
+                    string += ' ( '
+                    for i in range(len(data)):
+                        if i != len(data) - 1:
+                            string += f"'{data[i]}',"
+                        else:
+                            string += f"'{data[i]}'"
+                    string += ');'
+                    print(string)
+                    inster_in_bd(string)
+            elif self.comboBox_add.currentText() == 'Аэропорт вылета':
+                if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
+                        self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
+                    max_id = select_max_id('airport_out')
+                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                            self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
+                    string = select_name_t('airport_out')
+                    string += ' ( '
+                    for i in range(len(data)):
+                        if i != len(data) - 1:
+                            string += f"'{data[i]}',"
+                        else:
+                            string += f"'{data[i]}'"
+                    string += ');'
+                    print(string)
+                    inster_in_bd(string)
+            elif self.comboBox_add.currentText() == 'Аэропорт назначения':
+                if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
+                        self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
+                    max_id = select_max_id('airport_in')
+                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                            self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
+                    string = select_name_t('airport_in')
+                    string += ' ( '
+                    for i in range(len(data)):
+                        if i != len(data) - 1:
+                            string += f"'{data[i]}',"
+                        else:
+                            string += f"'{data[i]}'"
+                    string += ');'
+                    print(string)
+                    inster_in_bd(string)
+            elif self.comboBox_add.currentText() == 'Маршрут':
+                if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
+                        self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
+                    max_id = select_max_id('route')
+                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                            self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
+                    string = select_name_t('route')
+                    string += ' ( '
+                    for i in range(len(data)):
+                        if i != len(data) - 1:
+                            string += f"'{data[i]}',"
+                        else:
+                            string += f"'{data[i]}'"
+                    string += ');'
+                    print(string)
+                    inster_in_bd(string)
+            elif self.comboBox_add.currentText() == 'Рейс':
+                if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
+                        self.lineEdit_add_3.text() != '':
                     max_id = select_max_id('flight')
                     data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
                             self.lineEdit_add_3.text()]
@@ -361,22 +364,38 @@ class Ui_Add_window(object):
                     string += ');'
                     print(string)
                     inster_in_bd(string)
-        elif self.comboBox_add.currentText() == 'Билет':
-            if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
-                    self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                max_id = select_max_id('ticket')
-                data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
-                        self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
-                string = select_name_t('ticket')
-                string += ' ( '
-                for i in range(len(data)):
-                    if i != len(data) - 1:
-                        string += f"'{data[i]}',"
-                    else:
-                        string += f"'{data[i]}'"
-                string += ');'
-                print(string)
-                inster_in_bd(string)
+            elif self.comboBox_add.currentText() == 'Билет':
+                if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
+                        self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
+                    max_id = select_max_id('ticket')
+                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                            self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
+                    string = select_name_t('ticket')
+                    string += ' ( '
+                    for i in range(len(data)):
+                        if i != len(data) - 1:
+                            string += f"'{data[i]}',"
+                        else:
+                            string += f"'{data[i]}'"
+                    string += ');'
+                    print(string)
+                    inster_in_bd(string)
+            ok = QMessageBox()
+            ok.setWindowTitle("Добавление")
+            ok.setText("Вы добавили данные!")
+            ok.setIcon(QMessageBox.Information)
+            ok.setStandardButtons(QMessageBox.Ok)
+            ok.exec_()
+            print('Ошибка!!!')
+        except:
+            print(1)
+            error = QMessageBox()
+            error.setWindowTitle("Ошибка")
+            error.setText("Некоректные данные для ввода!")
+            error.setIcon(QMessageBox.Warning)
+            error.setStandardButtons(QMessageBox.Ok)
+            error.exec_()
+            print('Ошибка!!!')
                 # self.conn = self.connection_db
                 # self.cursors = self.conn.cursor()
                 # create_db_sql_query = """select max(id_passport) from passport_user;"""

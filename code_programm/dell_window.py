@@ -1,4 +1,5 @@
 import mysql.connector
+from PyQt5.QtWidgets import QMessageBox
 from mysql.connector import Error
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -26,6 +27,7 @@ def select_name_t(name_table, column, sing, value):
     create_db_sql_query = f"""delete from {name_table} where {column} {sing} {value};"""
     print(create_db_sql_query)
     cursors.execute(create_db_sql_query)
+    otvet = cursors.fetchall()
     conn.commit()
     conn.close()
     cursors.close()
@@ -45,12 +47,28 @@ def describe_table(name_table):
     print(y)
     return y
 
+
 def show_tables():
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
     create_db_sql_query = f"""show tables;"""
     cursors.execute(create_db_sql_query)
     y = cursors.fetchall()
+    conn.close()
+    cursors.close()
+    for i in range(len(y)):
+        y[i] = y[i][0]
+    print(y)
+    return y
+
+
+def describe_table_for_search(name_table):
+    conn = create_connection_mysql_db()
+    cursors = conn.cursor()
+    create_db_sql_query = f"""describe {name_table};"""
+    cursors.execute(create_db_sql_query)
+    y = cursors.fetchall()
+    print(y)
     conn.close()
     cursors.close()
     for i in range(len(y)):
@@ -114,7 +132,7 @@ class Ui_Dell_window(object):
         Dell_window.setWindowTitle(_translate("Dell_window", "MainWindow"))
         self.label_2.setText(_translate("Dell_window", "TextLabel"))
         self.pushButton_dell.setText(_translate("Dell_window", "Удалить"))
-        self.label_3.setText(_translate("Dell_window", "TextLabel"))
+        self.label_3.setText(_translate("Dell_window", "Знак"))
         self.pushButton_2_clear.setText(_translate("Dell_window", "Очистить"))
 
         self.label.setText(_translate("Dell_window", "Что удалить?"))
@@ -125,11 +143,12 @@ class Ui_Dell_window(object):
         self.label_2.setText(_translate("Dell_window", "По столбцу:"))
         self.comboBox.currentIndexChanged.connect(self.output_line_to_dell)
         self.pushButton_dell.clicked.connect(self.dell_funck)
-
-    def output_line_to_dell(self):
-        self.comboBox_2.clear()
+        y = show_tables()
+        for i in range(len(y)):
+            self.comboBox.addItem("")
+            self.comboBox.setItemText(i, y[i])
         name_table = self.comboBox.currentText()
-        y = describe_table(name_table)
+        y = describe_table_for_search(name_table)
         for i in range(len(y)):
             self.comboBox_2.addItem("")
             self.comboBox_2.setItemText(i, y[i])
@@ -137,13 +156,53 @@ class Ui_Dell_window(object):
             self.comboBox_3.addItem("")
             self.comboBox_3.setItemText(i, mass_sing[i])
 
+    def output_line_to_dell(self):
+        self.comboBox_2.clear()
+        name_table = self.comboBox.currentText()
+        if name_table == '':
+            y = describe_table('airline')
+        else:
+            y = describe_table(name_table)
+        for i in range(len(y)):
+            self.comboBox_2.addItem("")
+            self.comboBox_2.setItemText(i, y[i])
+        for i in range(len(mass_sing)):
+            self.comboBox_3.addItem("")
+            self.comboBox_3.setItemText(i, mass_sing[i])
+
+
     def dell_funck(self):
-        if self.comboBox.currentText() != '' and self.comboBox_2.currentText() != '' \
-                and self.comboBox_3.currentText() and self.lineEdit.text() != '':
-            name_table = self.comboBox.currentText()
-            column = self.comboBox_2.currentText()
-            sing = self.comboBox_3.currentText()
-            value = self.lineEdit.text()
-            print(name_table, column, sing, value)
-            select_name_t(name_table, column, sing, value)
-            print(2)
+        try:
+            if self.comboBox.currentText() != '' and self.comboBox_2.currentText() != '' \
+                    and self.lineEdit.text() != '':
+                name_table = self.comboBox.currentText()
+                column = self.comboBox_2.currentText()
+                sing = self.comboBox_3.currentText()
+                value = self.lineEdit.text()
+                print(name_table, column, sing, value)
+                select_name_t(name_table, column, sing, value)
+                ok = QMessageBox()
+                ok.setWindowTitle("Удаление")
+                ok.setText("Вы удалили данные!")
+                ok.setIcon(QMessageBox.Information)
+                ok.setStandardButtons(QMessageBox.Ok)
+                ok.exec_()
+                print('Ошибка!!!')
+            else:
+                ok = QMessageBox()
+                ok.setWindowTitle("Ошибка")
+                ok.setText("Заполните все поля!")
+                ok.setIcon(QMessageBox.Warning)
+                ok.setStandardButtons(QMessageBox.Ok)
+                ok.exec_()
+                print('Ошибка!!!')
+
+        except:
+            print(1)
+            error = QMessageBox()
+            error.setWindowTitle("Ошибка")
+            error.setText("Некоректный запрос!")
+            error.setIcon(QMessageBox.Warning)
+            error.setStandardButtons(QMessageBox.Ok)
+            error.exec_()
+            print('Ошибка!!!')

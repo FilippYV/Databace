@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets, Qt
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import *
-from add_window_code import Ui_Add_window
+from code_programm.add_window_code import Ui_Add_window
 
 import mysql.connector
 from mysql.connector import Error

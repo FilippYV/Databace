@@ -3,12 +3,12 @@ import sys
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from PyQt5.QtWidgets import *
 from add_window_code import Ui_Add_window
+from code_programm.sort_window import Ui_sort_window
 from dell_window import Ui_Dell_window
-
 import mysql.connector
 from mysql.connector import Error
-
-from search_window_code import Ui_Search_window
+from search_window import Ui_Serarch_window
+from sql_line import Ui_Serch_sql
 
 
 def create_connection_mysql_db():
@@ -63,6 +63,9 @@ def select_name_table(name_table):
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+
+
+
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(783, 810)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
@@ -84,9 +87,6 @@ class Ui_MainWindow(object):
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_2.setObjectName("pushButton_2")
         self.gridLayout.addWidget(self.pushButton_2, 1, 0, 1, 1)
-        self.pushButton_change = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_change.setObjectName("pushButton_change")
-        self.gridLayout.addWidget(self.pushButton_change, 0, 2, 1, 1)
         self.tab_widget = QtWidgets.QTabWidget(self.centralwidget)
         self.tab_widget.setStyleSheet("")
         self.tab_widget.setObjectName("tab_widget")
@@ -172,9 +172,6 @@ class Ui_MainWindow(object):
         self.gridLayout_11.addWidget(self.ticket_tableView, 0, 0, 1, 1)
         self.tab_widget.addTab(self.ticket_tab, "")
         self.gridLayout.addWidget(self.tab_widget, 2, 0, 1, 3)
-        self.pushButton_coman_line = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_coman_line.setObjectName("pushButton_coman_line")
-        self.gridLayout.addWidget(self.pushButton_coman_line, 1, 2, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
@@ -186,7 +183,6 @@ class Ui_MainWindow(object):
         self.pushButton.clicked.connect(self.add_fuck)
         self.pushButton_2.clicked.connect(self.dell_fuck)
         self.pushButton_3.clicked.connect(self.search_fuck)
-
         self.airline_tableView.clicked.connect(self.update_data)
         self.airport_in_tableView.clicked.connect(self.update_data)
         self.airport_out_tableView.clicked.connect(self.update_data)
@@ -195,6 +191,7 @@ class Ui_MainWindow(object):
         self.route_tableView.clicked.connect(self.update_data)
         self.ticket_tableView.clicked.connect(self.update_data)
         self.users_tableView.clicked.connect(self.update_data)
+        self.pushButton_4.clicked.connect(self.sort_fuck)
         m = self.update_data()
         masssiv = [self.airline_tableView, self.airport_in_tableView,
                    self.airport_out_tableView, self.flight_tableView,
@@ -215,6 +212,10 @@ class Ui_MainWindow(object):
                 for j in range(len(x[i])):
                     masssiv[k].setItem(i + 1, j, QTableWidgetItem(str(x[i][j])))
 
+
+
+
+
     def update_data(self):
         masssiv = [self.airline_tableView, self.airport_in_tableView,
                    self.airport_out_tableView, self.flight_tableView,
@@ -233,10 +234,6 @@ class Ui_MainWindow(object):
             for i in range(len(x)):
                 for j in range(len(x[i])):
                     masssiv[k].setItem(i + 1, j, QTableWidgetItem(str(x[i][j])))
-
-    def passport_user(self):
-        self.passpor_user_tableView.show()
-        self.passpor_user_tableView.setColumnWidth(7, 7)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -257,9 +254,22 @@ class Ui_MainWindow(object):
         self.pushButton_4.setText(_translate("MainWindow", "Сортировать данные"))
         self.pushButton_3.setText(_translate("MainWindow", "Найти в базе данных"))
         self.pushButton_2.setText(_translate("MainWindow", "Удалить данные"))
-        self.pushButton_coman_line.setText(_translate("MainWindow", "Comandline"))
-        self.pushButton_change.setText(_translate("MainWindow", "Заменить"))
+        # self.pushButton_coman_line.setText(_translate("MainWindow", "Comandline"))
+        # self.pushButton_change.setText(_translate("MainWindow", "Заменить"))
+        # self.pushButton_coman_line.clicked.connect(self.sql_line_fuck)
 
+
+    def sort_fuck(self):
+        self.sorts = QtWidgets.QMainWindow()
+        self.ui_sort = Ui_sort_window()
+        self.ui_sort.setupUi_sort(self.sorts)
+        self.sorts.show()
+
+    def sql_line_fuck(self):
+        self.sqlline = QtWidgets.QMainWindow()
+        self.ui_line = Ui_Serch_sql()
+        self.ui_line.setupUi_line(self.sqlline)
+        self.sqlline.show()
     def add_fuck(self):
         self.add_Window = QtWidgets.QMainWindow()
         self.ui_add = Ui_Add_window()
@@ -274,7 +284,7 @@ class Ui_MainWindow(object):
 
     def search_fuck(self):
         self.Search_window = QtWidgets.QMainWindow()
-        self.ui_search = Ui_Search_window
+        self.ui_search = Ui_Serarch_window()
         self.ui_search.setupUi_search(self.Search_window)
         self.Search_window.show()
 
