@@ -46,7 +46,7 @@ def add_in_passport_user_sql(data):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
     into = f"""INSERT INTO passport_user (id_passport, last_name,
-       patronymic, first_name, series, number, registration) VALUES
+       patronymic, first_name, series, numbers, registration) VALUES
     ('{data[0]}', '{data[1]}', '{data[2]}', '{data[3]}', '{data[4]}', '{data[5]}', '{data[6]}');"""
     cursors.execute(into)
     conn.commit()

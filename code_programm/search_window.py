@@ -197,7 +197,6 @@ class Ui_Serarch_window(object):
                 self.tableView.setColumnCount(column)
                 for i in range(column):
                     self.tableView.setItem(0, i, QTableWidgetItem(str(item[i])))
-                print('zzz')
                 for i in range(len(data)):
                     for j in range(len(data[i])):
                         self.tableView.setItem(i + 1, j, QTableWidgetItem(str(data[i][j])))

@@ -3,6 +3,7 @@ import sys
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtWidgets import *
 from add_window_code import Ui_Add_window
+from code_programm.change_window import Ui_Change_Window
 from code_programm.sort_window import Ui_sort_window
 from dell_window import Ui_Dell_window
 import mysql.connector
@@ -101,6 +102,12 @@ class Ui_MainWindow(object):
         self.tab_widget.addTab(self.Airline_tab, "")
         self.Plane_tab = QtWidgets.QWidget()
         self.Plane_tab.setObjectName("Plane_tab")
+        self.pushButton_change = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_change.setObjectName("pushButton_change")
+        self.gridLayout.addWidget(self.pushButton_change, 0, 2, 1, 1)
+        self.pushButton_coman_line = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_coman_line.setObjectName("pushButton_coman_line")
+        self.gridLayout.addWidget(self.pushButton_coman_line, 1, 2, 1, 1)
         self.gridLayout_4 = QtWidgets.QGridLayout(self.Plane_tab)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.plane_tableView = QtWidgets.QTableWidget(self.Plane_tab)
@@ -255,9 +262,16 @@ class Ui_MainWindow(object):
         self.pushButton_3.setText(_translate("MainWindow", "Найти в базе данных"))
         self.pushButton_2.setText(_translate("MainWindow", "Удалить данные"))
         # self.pushButton_coman_line.setText(_translate("MainWindow", "Comandline"))
-        # self.pushButton_change.setText(_translate("MainWindow", "Заменить"))
-        # self.pushButton_coman_line.clicked.connect(self.sql_line_fuck)
+        self.pushButton_change.setText(_translate("MainWindow", "Заменить"))
+        self.pushButton_change.clicked.connect(self.change_fuck)
 
+
+
+    def change_fuck(self):
+        self.change = QtWidgets.QMainWindow()
+        self.ui_change = Ui_Change_Window()
+        self.ui_change.setupUi_change(self.change)
+        self.change.show()
 
     def sort_fuck(self):
         self.sorts = QtWidgets.QMainWindow()
