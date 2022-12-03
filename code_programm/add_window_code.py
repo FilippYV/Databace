@@ -1,6 +1,7 @@
 import sys
 
 import mysql.connector
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox
 from mysql.connector import Error
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -217,7 +218,8 @@ class Ui_Add_window(object):
 
     def retranslateUi_add(self, Add_window):
         _translate = QtCore.QCoreApplication.translate
-        Add_window.setWindowTitle(_translate("Add_window", "Добавить данные"))
+        Add_window.setWindowTitle('Добавить')
+        Add_window.setWindowIcon(QIcon('../static/plus.png'))
         self.label_add.setText(_translate("Add_window", "Что добавить?"))
         self.comboBox_add.setItemText(0, _translate("Add_window", "Пользователя"))
         self.comboBox_add.setItemText(1, _translate("Add_window", "Рейс"))

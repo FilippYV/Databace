@@ -1,4 +1,5 @@
 import mysql.connector
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox
 from mysql.connector import Error
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -129,7 +130,8 @@ class Ui_Dell_window(object):
 
     def retranslateUi(self, Dell_window):
         _translate = QtCore.QCoreApplication.translate
-        Dell_window.setWindowTitle(_translate("Dell_window", "MainWindow"))
+        Dell_window.setWindowTitle('Удалить')
+        Dell_window.setWindowIcon(QIcon('../static/minus.png'))
         self.label_2.setText(_translate("Dell_window", "TextLabel"))
         self.pushButton_dell.setText(_translate("Dell_window", "Удалить"))
         self.label_3.setText(_translate("Dell_window", "Знак"))

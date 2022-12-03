@@ -1,4 +1,5 @@
 import mysql.connector
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from mysql.connector import Error
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -112,7 +113,8 @@ class Ui_Change_Window(object):
 
     def retranslateUi(self, Change_Window):
         _translate = QtCore.QCoreApplication.translate
-        Change_Window.setWindowTitle(_translate("Change_Window", "MainWindow"))
+        Change_Window.setWindowTitle('Изенеения')
+        Change_Window.setWindowIcon(QIcon('../static/update.png'))
         self.label_table.setText(_translate("Change_Window", "Выберете таблицу для редакртирования:"))
         self.pushButton_canseld.setText(_translate("Change_Window", "Отмена"))
         self.pushButton_change.setText(_translate("Change_Window", "Изменить"))

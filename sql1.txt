@@ -1,0 +1,1303 @@
+1 
+create database air_ticket;
+
+use air_ticket;
+
+show databases;
+show tables;
+describe name_table;
+select * from passport_user;
+DELETE FROM passport_user;
+ALTER TABLE airline RENAME COLUMN email TO website;
+Alter TABLE flight MODIFY COLUMN departure_date datetime NOT NULL;
+Alter TABLE flight MODIFY COLUMN arrival_date datetime NOT NULL;
+
+/drop table имя_таблицы;
+/drop database имя_базы данных;
+
+3
+create table passport_user (
+id_passport smallint AUTO_INCREMENT,
+last_name varchar (20) NOT NULL,
+patronymic varchar (20) NOT NULL,
+first_name varchar (20) NOT NULL,
+series int (4) NOT NULL,
+numbers int (6) NOT NULL,
+registration varchar (200) NOT NULL,
+primary key (id_passport)
+);
+
+create table airline(
+id_airline smallint AUTO_INCREMENT,
+name varchar (50) NOT NULL,
+phone varchar (25) NOT NULL,
+website varchar (50) NOT NULL,
+number_in_the_rating smallint NOT NULL,
+primary key (id_airline)
+);
+
+create table airport_out(
+id_departure_airport smallint AUTO_INCREMENT,
+address varchar (200) NOT NULL,
+phone varchar (25) NOT NULL,
+website varchar (50) NOT NULL,
+name varchar (50) NOT NULL,
+primary key (id_departure_airport)
+);
+
+create table airport_in(
+id_destination_airport smallint AUTO_INCREMENT,
+address varchar (200) NOT NULL,
+phone varchar (25) NOT NULL,
+website varchar (50) NOT NULL,
+name varchar (50) NOT NULL,
+primary key (id_destination_airport)
+);
+
+create table route(
+id_route smallint AUTO_INCREMENT,
+id_destination_airport smallint NOT NULL,
+id_departure_airport smallint NOT NULL,
+departure_city varchar (50) NOT NULL,
+destination_city varchar (50) NOT NULL,
+primary key (id_route),
+FOREIGN KEY (id_destination_airport) REFERENCES airport_in (id_destination_airport),
+FOREIGN KEY (id_departure_airport) REFERENCES airport_out (id_departure_airport)
+);
+
+
+create table flight(
+id_flight smallint AUTO_INCREMENT,
+id_route smallint NOT NULL,
+departure_date datetime NOT NULL,
+arrival_date datetime NOT NULL,
+primary key (id_flight),
+FOREIGN KEY (id_route) REFERENCES route (id_route)
+);
+
+
+
+
+CREATE TABLE plane (
+id_plane smallint AUTO_INCREMENT,
+service_life VARCHAR (100) NOT NULL,
+year_of_release DATE NOT NULL,
+number_of_seats SMALLINT NOT NULL,
+stamp VARCHAR (50) NOT NULL,
+model VARCHAR (50) NOT NULL,
+id_airline smallint NOT NULL,
+primary key (id_plane),
+FOREIGN KEY (id_airline) REFERENCES airline (id_airline)
+);
+
+
+CREATE TABLE users (
+id_user smallint AUTO_INCREMENT,
+id_passport smallint  NOT NULL,
+email VARCHAR (100) NOT NULL,
+phone varchar (25) NOT NULL,
+primary key (id_user),
+FOREIGN KEY (id_passport) REFERENCES passport_user (id_passport)
+);
+
+
+CREATE TABLE ticket (
+id_ticket smallint AUTO_INCREMENT,
+id_plane SMALLINT NOT NULL,
+id_flight SMALLINT NOT NULL,
+id_user SMALLINT NOT NULL,
+seat_number varchar (5) NOT NULL,
+primary key (id_ticket),
+FOREIGN KEY (id_plane) REFERENCES plane (id_plane),
+FOREIGN KEY (id_flight) REFERENCES flight (id_flight),
+FOREIGN KEY (id_user) REFERENCES users (id_user)
+);
+
+
+12
+airline
+airport_in
+airport_out
+flight
+passport_user
+plane
+route
+user
+ticket
+show tables;
+describe airline; select * from airline;
+describe airport_in ; select * from airport_in ;
+describe airport_out; select * from airport_out;
+describe airport_in ; select * from airport_in ;
+describe flight; select * from flight;
+describe passport_user; select * from passport_user;
+describe plane; select * from plane;
+describe route; select * from route;
+describe user; select * from user;
+describe ticket; describe ticket;
+describe flight; describe passport_user; describe plane;
+describe route; describe user; describe ticket;
+
+
+13
+INSERT INTO passport_user (id_passport, last_name, patronymic, first_name, series, numbers, registration) VALUES 
+('1','Рудакова','Василиса','Данииловна','4506','567353','УФМС ПО ГОР. МОСКВЕ'),
+('2','Волошина','Диана','Никитична','4501','758624','УФМС ПО ГОР. МОСКВЕ'),
+('3','Волков','Богдан','Фёдорович','4503','908905','УФМС ПО ГОР. МОСКВЕ');
+
+
+INSERT INTO users (id_passport, id_user, email, phone) VALUES 
+('1', '1','redacova@yandex.ru','+78760320829'),
+('2', '2','volshina@gmail.com','+78760325436'),
+('3', '3','volkow@mail.com','+78760327591');
+
+
+INSERT INTO airline (id_airline, name, phone, website, number_in_the_rating) VALUES 
+('1','Россия','+74951397777', 'https://www.rossiya-airlines.com','2'),
+('2','Аэрофлот','+78004445555', 'https://www.aeroflot.ru', '1'),
+('3','S7','+74957830707', 'https://www.s7.ru', '3');
+
+
+INSERT INTO airport_out (id_departure_airport, address, phone, website, name) VALUES 
+('1','Москва, посёлок Внуково, 2-я Рейсовая улица, 2','+74954364388', 'https://www.vnukovo.ru','Внуково'),
+('2','Санкт-Петербург, Пулковское шоссе, 41, лит.ЗА','+78123243000', 'https://pulkovoairport.ru', 'Пулково'),
+('3','Аэропорт г.Сочи, Мира, 50, Сочи.','+78003011991', 'https://aer.aero', 'Сочи');
+
+
+
+INSERT INTO airport_in (id_destination_airport, address, phone, website, name) VALUES 
+('1','Санкт-Петербург, Пулковское шоссе, 41, лит.ЗА','+78123243000', 'https://pulkovoairport.ru', 'Пулково'),
+('2','Аэропорт г.Сочи, Мира, 50, Сочи.','+78003011991', 'https://aer.aero', 'Сочи'),
+('3','Москва, посёлок Внуково, 2-я Рейсовая улица, 2','+74954364388', 'https://www.vnukovo.ru','Внуково');
+
+
+
+INSERT INTO route (id_route, id_destination_airport, id_departure_airport, departure_city, destination_city) VALUES 
+('1','1','1', 'Москва', 'Санкт-Петербург'),
+('2','2','2', 'Санкт-Петербург', 'Сочи'),
+('3','3','3', 'Сочи', 'Москва');
+
+
+
+
+INSERT INTO plane (id_plane, service_life, year_of_release, number_of_seats, stamp, model, id_airline) VALUES 
+('1','1000 мот/часов','2012-03-14', 150, 'Аirbus', 'A320', '1'),
+('2','1500 мот/часов','2015-12-07', 120,'Аirbus', 'A319', '2'),
+('3','1200 мот/часов','2017-11-29', 210,'Boing', '747', '3');
+
+
+
+INSERT INTO flight (id_flight, id_route, departure_date, arrival_date) VALUES 
+('1','1','2021-11-16 01:20:00', '2021-11-16 02:15:00'),
+('2','2','2021-11-16 03:55:00', '2021-11-16 06:45:00'),
+('3','3','2021-11-16 03:55:00', '2021-11-16 05:45:00');
+
+
+
+INSERT INTO ticket (id_ticket, id_plane, id_flight, seat_number, id_user) VALUES 
+('1','1','1',  'a3', '1'),
+('2','2','2', 'b15', '2'),
+('3','3','3', 'c43', '3');
+
+
+
+CREATE TABLE ticket (
+id_ticket smallint AUTO_INCREMENT,
+id_plane SMALLINT NOT NULL,
+id_flight SMALLINT NOT NULL,
+id_passport SMALLINT NOT NULL,
+seat_number varchar (5) NOT NULL,
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+CREATE TABLE Авиакомпания
+(
+	id_airline           SMALLINT NOT NULL ,
+	name                 VARCHAR() NOT NULL ,
+	phone                VARCHAR() NOT NULL ,
+	email                VARCHAR() NOT NULL ,
+	number_in_the_rating SMALLINT NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKАвиакомпания ON Авиакомпания
+(id_airline   ASC);
+
+
+
+ALTER TABLE Авиакомпания
+	ADD CONSTRAINT  XPKАвиакомпания PRIMARY KEY (id_airline);
+
+
+
+CREATE TABLE Аэропорт_вылета
+(
+	id_departure_airport CHAR(18) NOT NULL ,
+	address              VARCHAR() NOT NULL ,
+	phone                VARCHAR() NOT NULL ,
+	email                VARCHAR() NOT NULL ,
+	name                 VARCHAR() NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKАэропорт_вылета ON Аэропорт_вылета
+(id_departure_airport   ASC);
+
+
+
+ALTER TABLE Аэропорт_вылета
+	ADD CONSTRAINT  XPKАэропорт_вылета PRIMARY KEY (id_departure_airport);
+
+
+
+CREATE TABLE Аэропорт_назначения
+(
+	id_destination_airport CHAR(18) NOT NULL ,
+	address              VARCHAR() NOT NULL ,
+	phone                VARCHAR() NOT NULL ,
+	email                VARCHAR() NOT NULL ,
+	name                 VARCHAR() NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKАэропорт_назначения ON Аэропорт_назначения
+(id_destination_airport   ASC);
+
+
+
+ALTER TABLE Аэропорт_назначения
+	ADD CONSTRAINT  XPKАэропорт_назначения PRIMARY KEY (id_destination_airport);
+
+
+
+CREATE TABLE Билет
+(
+	id_plane             SMALLINT NULL ,
+	id_flight            SMALLINT NULL ,
+	id_ticket            SMALLINT NOT NULL ,
+	seat_number          VARCHAR() NULL ,
+	id_passport          SMALLINT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKБилет ON Билет
+(id_ticket   ASC);
+
+
+
+ALTER TABLE Билет
+	ADD CONSTRAINT  XPKБилет PRIMARY KEY (id_ticket);
+
+
+
+CREATE TABLE Маршрут
+(
+	id_departure_airport SMALLINT NOT NULL ,
+	id_destination_airport SMALLINT NOT NULL ,
+	id_route             SMALLINT NOT NULL ,
+	departure_city       VARCHAR() NOT NULL ,
+	destination_city     VARCHAR() NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKМаршрут ON Маршрут
+(id_route   ASC);
+
+
+
+ALTER TABLE Маршрут
+	ADD CONSTRAINT  XPKМаршрут PRIMARY KEY (id_route);
+
+
+
+CREATE TABLE Паспорт_пассажира
+(
+	id_passport          SMALLINT NOT NULL ,
+	last_name            VARCHAR() NOT NULL ,
+	patronymic           VARCHAR() NOT NULL ,
+	first_name           VARCHAR() NOT NULL ,
+	series               INT NOT NULL ,
+	number               INT NOT NULL ,
+	registration         VARCHAR() NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKПаспорт_пассажира ON Паспорт_пассажира
+(id_passport   ASC);
+
+
+
+ALTER TABLE Паспорт_пассажира
+	ADD CONSTRAINT  XPKПаспорт_пассажира PRIMARY KEY (id_passport);
+
+
+
+CREATE TABLE Пассажир
+(
+	email                VARCHAR() NOT NULL ,
+	phone                VARCHAR() NULL ,
+	id_passport          SMALLINT NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKПассажир ON Пассажир
+(id_passport   ASC);
+
+
+
+ALTER TABLE Пассажир
+	ADD CONSTRAINT  XPKПассажир PRIMARY KEY (id_passport);
+
+
+
+CREATE TABLE Рейс
+(
+	id_route             SMALLINT NULL ,
+	id_flight            SMALLINT NOT NULL ,
+	departure_date       DATE NOT NULL ,
+	arrival_date         DATE NOT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKРейс ON Рейс
+(id_flight   ASC);
+
+
+
+ALTER TABLE Рейс
+	ADD CONSTRAINT  XPKРейс PRIMARY KEY (id_flight);
+
+
+
+CREATE TABLE Самолет
+(
+	id_plane             SMALLINT NOT NULL ,
+	service_life         VARCHAR() NOT NULL ,
+	year_of_release      DATE NOT NULL ,
+	number_of_seats      SMALLINT NOT NULL ,
+	stamp                VARCHAR() NOT NULL ,
+	model                VARCHAR() NOT NULL ,
+	id_airline           SMALLINT NULL 
+);
+
+
+
+CREATE UNIQUE INDEX XPKСамолет ON Самолет
+(id_plane   ASC);
+
+
+
+ALTER TABLE Самолет
+	ADD CONSTRAINT  XPKСамолет PRIMARY KEY (id_plane);
+
+
+
+ALTER TABLE Билет
+	ADD (CONSTRAINT R_9 FOREIGN KEY (id_plane) REFERENCES Самолет (id_plane) ON DELETE SET NULL);
+
+
+
+ALTER TABLE Билет
+	ADD (CONSTRAINT R_10 FOREIGN KEY (id_flight) REFERENCES Рейс (id_flight) ON DELETE SET NULL);
+
+
+
+ALTER TABLE Билет
+	ADD (CONSTRAINT R_11 FOREIGN KEY (id_passport) REFERENCES Пассажир (id_passport) ON DELETE SET NULL);
+
+
+
+ALTER TABLE Маршрут
+	ADD (CONSTRAINT R_5 FOREIGN KEY (id_departure_airport) REFERENCES Аэропорт_вылета (id_departure_airport) ON DELETE SET NULL);
+
+
+
+ALTER TABLE Маршрут
+	ADD (CONSTRAINT R_6 FOREIGN KEY (id_destination_airport) REFERENCES Аэропорт_назначения (id_destination_airport) ON DELETE SET NULL);
+
+
+
+ALTER TABLE Пассажир
+	ADD (CONSTRAINT R_16 FOREIGN KEY (id_passport) REFERENCES Паспорт_пассажира (id_passport));
+
+
+
+ALTER TABLE Рейс
+	ADD (CONSTRAINT R_8 FOREIGN KEY (id_route) REFERENCES Маршрут (id_route) ON DELETE SET NULL);
+
+
+
+ALTER TABLE Самолет
+	ADD (CONSTRAINT R_3 FOREIGN KEY (id_airline) REFERENCES Авиакомпания (id_airline) ON DELETE SET NULL);
+
+
+
+CREATE  TRIGGER  tD_Авиакомпания AFTER DELETE ON Авиакомпания for each row
+-- ERwin Builtin Trigger
+-- DELETE trigger on Авиакомпания 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Авиакомпания  Самолет on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="0000b875", PARENT_OWNER="", PARENT_TABLE="Авиакомпания"
+    CHILD_OWNER="", CHILD_TABLE="Самолет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_3", FK_COLUMNS="id_airline" */
+    UPDATE Самолет
+      SET
+        /* %SetFK(Самолет,NULL) */
+        Самолет.id_airline = NULL
+      WHERE
+        /* %JoinFKPK(Самолет,:%Old," = "," AND") */
+        Самолет.id_airline = :old.id_airline;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Авиакомпания AFTER UPDATE ON Авиакомпания for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Авиакомпания 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* Авиакомпания  Самолет on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="0000dbbf", PARENT_OWNER="", PARENT_TABLE="Авиакомпания"
+    CHILD_OWNER="", CHILD_TABLE="Самолет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_3", FK_COLUMNS="id_airline" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.id_airline <> :new.id_airline
+  THEN
+    UPDATE Самолет
+      SET
+        /* %SetFK(Самолет,NULL) */
+        Самолет.id_airline = NULL
+      WHERE
+        /* %JoinFKPK(Самолет,:%Old," = ",",") */
+        Самолет.id_airline = :old.id_airline;
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+CREATE  TRIGGER  tD_Аэропорт_вылета AFTER DELETE ON Аэропорт_вылета for each row
+-- ERwin Builtin Trigger
+-- DELETE trigger on Аэропорт_вылета 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Аэропорт_вылета  Маршрут on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="0000c4b0", PARENT_OWNER="", PARENT_TABLE="Аэропорт_вылета"
+    CHILD_OWNER="", CHILD_TABLE="Маршрут"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_5", FK_COLUMNS="id_departure_airport" */
+    UPDATE Маршрут
+      SET
+        /* %SetFK(Маршрут,NULL) */
+        Маршрут.id_departure_airport = NULL
+      WHERE
+        /* %JoinFKPK(Маршрут,:%Old," = "," AND") */
+        Маршрут.id_departure_airport = :old.id_departure_airport;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Аэропорт_вылета AFTER UPDATE ON Аэропорт_вылета for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Аэропорт_вылета 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* Аэропорт_вылета  Маршрут on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="0000fc89", PARENT_OWNER="", PARENT_TABLE="Аэропорт_вылета"
+    CHILD_OWNER="", CHILD_TABLE="Маршрут"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_5", FK_COLUMNS="id_departure_airport" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.id_departure_airport <> :new.id_departure_airport
+  THEN
+    UPDATE Маршрут
+      SET
+        /* %SetFK(Маршрут,NULL) */
+        Маршрут.id_departure_airport = NULL
+      WHERE
+        /* %JoinFKPK(Маршрут,:%Old," = ",",") */
+        Маршрут.id_departure_airport = :old.id_departure_airport;
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+CREATE  TRIGGER  tD_Аэропорт_назначения AFTER DELETE ON Аэропорт_назначения for each row
+-- ERwin Builtin Trigger
+-- DELETE trigger on Аэропорт_назначения 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Аэропорт_назначения  Маршрут on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="0000c44e", PARENT_OWNER="", PARENT_TABLE="Аэропорт_назначения"
+    CHILD_OWNER="", CHILD_TABLE="Маршрут"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_6", FK_COLUMNS="id_destination_airport" */
+    UPDATE Маршрут
+      SET
+        /* %SetFK(Маршрут,NULL) */
+        Маршрут.id_destination_airport = NULL
+      WHERE
+        /* %JoinFKPK(Маршрут,:%Old," = "," AND") */
+        Маршрут.id_destination_airport = :old.id_destination_airport;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Аэропорт_назначения AFTER UPDATE ON Аэропорт_назначения for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Аэропорт_назначения 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* Аэропорт_назначения  Маршрут on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="0000fd51", PARENT_OWNER="", PARENT_TABLE="Аэропорт_назначения"
+    CHILD_OWNER="", CHILD_TABLE="Маршрут"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_6", FK_COLUMNS="id_destination_airport" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.id_destination_airport <> :new.id_destination_airport
+  THEN
+    UPDATE Маршрут
+      SET
+        /* %SetFK(Маршрут,NULL) */
+        Маршрут.id_destination_airport = NULL
+      WHERE
+        /* %JoinFKPK(Маршрут,:%Old," = ",",") */
+        Маршрут.id_destination_airport = :old.id_destination_airport;
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+CREATE  TRIGGER tI_Билет BEFORE INSERT ON Билет for each row
+-- ERwin Builtin Trigger
+-- INSERT trigger on Билет 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Самолет  Билет on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="0002b948", PARENT_OWNER="", PARENT_TABLE="Самолет"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_9", FK_COLUMNS="id_plane" */
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_plane = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM Самолет
+            WHERE
+              /* %JoinFKPK(:%New,Самолет," = "," AND") */
+              :new.id_plane = Самолет.id_plane
+        ) 
+        /* %JoinPKPK(Билет,:%New," = "," AND") */
+         and Билет.id_ticket = :new.id_ticket;
+
+    /* ERwin Builtin Trigger */
+    /* Рейс  Билет on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Рейс"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_10", FK_COLUMNS="id_flight" */
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_flight = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM Рейс
+            WHERE
+              /* %JoinFKPK(:%New,Рейс," = "," AND") */
+              :new.id_flight = Рейс.id_flight
+        ) 
+        /* %JoinPKPK(Билет,:%New," = "," AND") */
+         and Билет.id_ticket = :new.id_ticket;
+
+    /* ERwin Builtin Trigger */
+    /* Пассажир  Билет on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Пассажир"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_11", FK_COLUMNS="id_passport" */
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_passport = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM Пассажир
+            WHERE
+              /* %JoinFKPK(:%New,Пассажир," = "," AND") */
+              :new.id_passport = Пассажир.id_passport
+        ) 
+        /* %JoinPKPK(Билет,:%New," = "," AND") */
+         and Билет.id_ticket = :new.id_ticket;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Билет AFTER UPDATE ON Билет for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Билет 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Trigger */
+  /* Самолет  Билет on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00030717", PARENT_OWNER="", PARENT_TABLE="Самолет"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_9", FK_COLUMNS="id_plane" */
+  SELECT count(*) INTO NUMROWS
+    FROM Самолет
+    WHERE
+      /* %JoinFKPK(:%New,Самолет," = "," AND") */
+      :new.id_plane = Самолет.id_plane;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    :new.id_plane IS NOT NULL AND
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update Билет because Самолет does not exist.'
+    );
+  END IF;
+
+  /* ERwin Builtin Trigger */
+  /* Рейс  Билет on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Рейс"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_10", FK_COLUMNS="id_flight" */
+  SELECT count(*) INTO NUMROWS
+    FROM Рейс
+    WHERE
+      /* %JoinFKPK(:%New,Рейс," = "," AND") */
+      :new.id_flight = Рейс.id_flight;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    :new.id_flight IS NOT NULL AND
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update Билет because Рейс does not exist.'
+    );
+  END IF;
+
+  /* ERwin Builtin Trigger */
+  /* Пассажир  Билет on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Пассажир"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_11", FK_COLUMNS="id_passport" */
+  SELECT count(*) INTO NUMROWS
+    FROM Пассажир
+    WHERE
+      /* %JoinFKPK(:%New,Пассажир," = "," AND") */
+      :new.id_passport = Пассажир.id_passport;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    :new.id_passport IS NOT NULL AND
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update Билет because Пассажир does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+CREATE  TRIGGER tI_Маршрут BEFORE INSERT ON Маршрут for each row
+-- ERwin Builtin Trigger
+-- INSERT trigger on Маршрут 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Аэропорт_вылета  Маршрут on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="000237cf", PARENT_OWNER="", PARENT_TABLE="Аэропорт_вылета"
+    CHILD_OWNER="", CHILD_TABLE="Маршрут"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_5", FK_COLUMNS="id_departure_airport" */
+    UPDATE Маршрут
+      SET
+        /* %SetFK(Маршрут,NULL) */
+        Маршрут.id_departure_airport = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM Аэропорт_вылета
+            WHERE
+              /* %JoinFKPK(:%New,Аэропорт_вылета," = "," AND") */
+              :new.id_departure_airport = Аэропорт_вылета.id_departure_airport
+        ) 
+        /* %JoinPKPK(Маршрут,:%New," = "," AND") */
+         and Маршрут.id_route = :new.id_route;
+
+    /* ERwin Builtin Trigger */
+    /* Аэропорт_назначения  Маршрут on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Аэропорт_назначения"
+    CHILD_OWNER="", CHILD_TABLE="Маршрут"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_6", FK_COLUMNS="id_destination_airport" */
+    UPDATE Маршрут
+      SET
+        /* %SetFK(Маршрут,NULL) */
+        Маршрут.id_destination_airport = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM Аэропорт_назначения
+            WHERE
+              /* %JoinFKPK(:%New,Аэропорт_назначения," = "," AND") */
+              :new.id_destination_airport = Аэропорт_назначения.id_destination_airport
+        ) 
+        /* %JoinPKPK(Маршрут,:%New," = "," AND") */
+         and Маршрут.id_route = :new.id_route;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER  tD_Маршрут AFTER DELETE ON Маршрут for each row
+-- ERwin Builtin Trigger
+-- DELETE trigger on Маршрут 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Маршрут  Рейс on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="0000a45d", PARENT_OWNER="", PARENT_TABLE="Маршрут"
+    CHILD_OWNER="", CHILD_TABLE="Рейс"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_8", FK_COLUMNS="id_route" */
+    UPDATE Рейс
+      SET
+        /* %SetFK(Рейс,NULL) */
+        Рейс.id_route = NULL
+      WHERE
+        /* %JoinFKPK(Рейс,:%Old," = "," AND") */
+        Рейс.id_route = :old.id_route;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Маршрут AFTER UPDATE ON Маршрут for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Маршрут 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* Маршрут  Рейс on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="00034077", PARENT_OWNER="", PARENT_TABLE="Маршрут"
+    CHILD_OWNER="", CHILD_TABLE="Рейс"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_8", FK_COLUMNS="id_route" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.id_route <> :new.id_route
+  THEN
+    UPDATE Рейс
+      SET
+        /* %SetFK(Рейс,NULL) */
+        Рейс.id_route = NULL
+      WHERE
+        /* %JoinFKPK(Рейс,:%Old," = ",",") */
+        Рейс.id_route = :old.id_route;
+  END IF;
+
+  /* ERwin Builtin Trigger */
+  /* Аэропорт_вылета  Маршрут on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Аэропорт_вылета"
+    CHILD_OWNER="", CHILD_TABLE="Маршрут"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_5", FK_COLUMNS="id_departure_airport" */
+  SELECT count(*) INTO NUMROWS
+    FROM Аэропорт_вылета
+    WHERE
+      /* %JoinFKPK(:%New,Аэропорт_вылета," = "," AND") */
+      :new.id_departure_airport = Аэропорт_вылета.id_departure_airport;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    :new.id_departure_airport IS NOT NULL AND
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update Маршрут because Аэропорт_вылета does not exist.'
+    );
+  END IF;
+
+  /* ERwin Builtin Trigger */
+  /* Аэропорт_назначения  Маршрут on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Аэропорт_назначения"
+    CHILD_OWNER="", CHILD_TABLE="Маршрут"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_6", FK_COLUMNS="id_destination_airport" */
+  SELECT count(*) INTO NUMROWS
+    FROM Аэропорт_назначения
+    WHERE
+      /* %JoinFKPK(:%New,Аэропорт_назначения," = "," AND") */
+      :new.id_destination_airport = Аэропорт_назначения.id_destination_airport;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    :new.id_destination_airport IS NOT NULL AND
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update Маршрут because Аэропорт_назначения does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+CREATE  TRIGGER  tD_Паспорт_пассажира AFTER DELETE ON Паспорт_пассажира for each row
+-- ERwin Builtin Trigger
+-- DELETE trigger on Паспорт_пассажира 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Паспорт_пассажира  Пассажир on parent delete restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000eb9c", PARENT_OWNER="", PARENT_TABLE="Паспорт_пассажира"
+    CHILD_OWNER="", CHILD_TABLE="Пассажир"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_16", FK_COLUMNS="id_passport" */
+    SELECT count(*) INTO NUMROWS
+      FROM Пассажир
+      WHERE
+        /*  %JoinFKPK(Пассажир,:%Old," = "," AND") */
+        Пассажир.id_passport = :old.id_passport;
+    IF (NUMROWS > 0)
+    THEN
+      raise_application_error(
+        -20001,
+        'Cannot delete Паспорт_пассажира because Пассажир exists.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Паспорт_пассажира AFTER UPDATE ON Паспорт_пассажира for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Паспорт_пассажира 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* ERwin Builtin Trigger */
+  /* Паспорт_пассажира  Пассажир on parent update restrict */
+  /* ERWIN_RELATION:CHECKSUM="0001024e", PARENT_OWNER="", PARENT_TABLE="Паспорт_пассажира"
+    CHILD_OWNER="", CHILD_TABLE="Пассажир"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_16", FK_COLUMNS="id_passport" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.id_passport <> :new.id_passport
+  THEN
+    SELECT count(*) INTO NUMROWS
+      FROM Пассажир
+      WHERE
+        /*  %JoinFKPK(Пассажир,:%Old," = "," AND") */
+        Пассажир.id_passport = :old.id_passport;
+    IF (NUMROWS > 0)
+    THEN 
+      raise_application_error(
+        -20005,
+        'Cannot update Паспорт_пассажира because Пассажир exists.'
+      );
+    END IF;
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+CREATE  TRIGGER tI_Пассажир BEFORE INSERT ON Пассажир for each row
+-- ERwin Builtin Trigger
+-- INSERT trigger on Пассажир 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Паспорт_пассажира  Пассажир on child insert restrict */
+    /* ERWIN_RELATION:CHECKSUM="0000feac", PARENT_OWNER="", PARENT_TABLE="Паспорт_пассажира"
+    CHILD_OWNER="", CHILD_TABLE="Пассажир"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_16", FK_COLUMNS="id_passport" */
+    SELECT count(*) INTO NUMROWS
+      FROM Паспорт_пассажира
+      WHERE
+        /* %JoinFKPK(:%New,Паспорт_пассажира," = "," AND") */
+        :new.id_passport = Паспорт_пассажира.id_passport;
+    IF (
+      /* %NotnullFK(:%New," IS NOT NULL AND") */
+      
+      NUMROWS = 0
+    )
+    THEN
+      raise_application_error(
+        -20002,
+        'Cannot insert Пассажир because Паспорт_пассажира does not exist.'
+      );
+    END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER  tD_Пассажир AFTER DELETE ON Пассажир for each row
+-- ERwin Builtin Trigger
+-- DELETE trigger on Пассажир 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Пассажир  Билет on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="0000b351", PARENT_OWNER="", PARENT_TABLE="Пассажир"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_11", FK_COLUMNS="id_passport" */
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_passport = NULL
+      WHERE
+        /* %JoinFKPK(Билет,:%Old," = "," AND") */
+        Билет.id_passport = :old.id_passport;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Пассажир AFTER UPDATE ON Пассажир for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Пассажир 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* Пассажир  Билет on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="0001e7d6", PARENT_OWNER="", PARENT_TABLE="Пассажир"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_11", FK_COLUMNS="id_passport" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.id_passport <> :new.id_passport
+  THEN
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_passport = NULL
+      WHERE
+        /* %JoinFKPK(Билет,:%Old," = ",",") */
+        Билет.id_passport = :old.id_passport;
+  END IF;
+
+  /* ERwin Builtin Trigger */
+  /* Паспорт_пассажира  Пассажир on child update restrict */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Паспорт_пассажира"
+    CHILD_OWNER="", CHILD_TABLE="Пассажир"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_16", FK_COLUMNS="id_passport" */
+  SELECT count(*) INTO NUMROWS
+    FROM Паспорт_пассажира
+    WHERE
+      /* %JoinFKPK(:%New,Паспорт_пассажира," = "," AND") */
+      :new.id_passport = Паспорт_пассажира.id_passport;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update Пассажир because Паспорт_пассажира does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+CREATE  TRIGGER tI_Рейс BEFORE INSERT ON Рейс for each row
+-- ERwin Builtin Trigger
+-- INSERT trigger on Рейс 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Маршрут  Рейс on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="0000d9bf", PARENT_OWNER="", PARENT_TABLE="Маршрут"
+    CHILD_OWNER="", CHILD_TABLE="Рейс"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_8", FK_COLUMNS="id_route" */
+    UPDATE Рейс
+      SET
+        /* %SetFK(Рейс,NULL) */
+        Рейс.id_route = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM Маршрут
+            WHERE
+              /* %JoinFKPK(:%New,Маршрут," = "," AND") */
+              :new.id_route = Маршрут.id_route
+        ) 
+        /* %JoinPKPK(Рейс,:%New," = "," AND") */
+         and Рейс.id_flight = :new.id_flight;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER  tD_Рейс AFTER DELETE ON Рейс for each row
+-- ERwin Builtin Trigger
+-- DELETE trigger on Рейс 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Рейс  Билет on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="00009cb5", PARENT_OWNER="", PARENT_TABLE="Рейс"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_10", FK_COLUMNS="id_flight" */
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_flight = NULL
+      WHERE
+        /* %JoinFKPK(Билет,:%Old," = "," AND") */
+        Билет.id_flight = :old.id_flight;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Рейс AFTER UPDATE ON Рейс for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Рейс 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* Рейс  Билет on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="0001d76c", PARENT_OWNER="", PARENT_TABLE="Рейс"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_10", FK_COLUMNS="id_flight" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.id_flight <> :new.id_flight
+  THEN
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_flight = NULL
+      WHERE
+        /* %JoinFKPK(Билет,:%Old," = ",",") */
+        Билет.id_flight = :old.id_flight;
+  END IF;
+
+  /* ERwin Builtin Trigger */
+  /* Маршрут  Рейс on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Маршрут"
+    CHILD_OWNER="", CHILD_TABLE="Рейс"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_8", FK_COLUMNS="id_route" */
+  SELECT count(*) INTO NUMROWS
+    FROM Маршрут
+    WHERE
+      /* %JoinFKPK(:%New,Маршрут," = "," AND") */
+      :new.id_route = Маршрут.id_route;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    :new.id_route IS NOT NULL AND
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update Рейс because Маршрут does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+CREATE  TRIGGER tI_Самолет BEFORE INSERT ON Самолет for each row
+-- ERwin Builtin Trigger
+-- INSERT trigger on Самолет 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Авиакомпания  Самолет on child insert set null */
+    /* ERWIN_RELATION:CHECKSUM="0000f3eb", PARENT_OWNER="", PARENT_TABLE="Авиакомпания"
+    CHILD_OWNER="", CHILD_TABLE="Самолет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_3", FK_COLUMNS="id_airline" */
+    UPDATE Самолет
+      SET
+        /* %SetFK(Самолет,NULL) */
+        Самолет.id_airline = NULL
+      WHERE
+        NOT EXISTS (
+          SELECT * FROM Авиакомпания
+            WHERE
+              /* %JoinFKPK(:%New,Авиакомпания," = "," AND") */
+              :new.id_airline = Авиакомпания.id_airline
+        ) 
+        /* %JoinPKPK(Самолет,:%New," = "," AND") */
+         and Самолет.id_plane = :new.id_plane;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER  tD_Самолет AFTER DELETE ON Самолет for each row
+-- ERwin Builtin Trigger
+-- DELETE trigger on Самолет 
+DECLARE NUMROWS INTEGER;
+BEGIN
+    /* ERwin Builtin Trigger */
+    /* Самолет  Билет on parent delete set null */
+    /* ERWIN_RELATION:CHECKSUM="0000a4cb", PARENT_OWNER="", PARENT_TABLE="Самолет"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_9", FK_COLUMNS="id_plane" */
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_plane = NULL
+      WHERE
+        /* %JoinFKPK(Билет,:%Old," = "," AND") */
+        Билет.id_plane = :old.id_plane;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+CREATE  TRIGGER tU_Самолет AFTER UPDATE ON Самолет for each row
+-- ERwin Builtin Trigger
+-- UPDATE trigger on Самолет 
+DECLARE NUMROWS INTEGER;
+BEGIN
+  /* Самолет  Билет on parent update set null */
+  /* ERWIN_RELATION:CHECKSUM="0001db39", PARENT_OWNER="", PARENT_TABLE="Самолет"
+    CHILD_OWNER="", CHILD_TABLE="Билет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_9", FK_COLUMNS="id_plane" */
+  IF
+    /* %JoinPKPK(:%Old,:%New," <> "," OR ") */
+    :old.id_plane <> :new.id_plane
+  THEN
+    UPDATE Билет
+      SET
+        /* %SetFK(Билет,NULL) */
+        Билет.id_plane = NULL
+      WHERE
+        /* %JoinFKPK(Билет,:%Old," = ",",") */
+        Билет.id_plane = :old.id_plane;
+  END IF;
+
+  /* ERwin Builtin Trigger */
+  /* Авиакомпания  Самолет on child update no action */
+  /* ERWIN_RELATION:CHECKSUM="00000000", PARENT_OWNER="", PARENT_TABLE="Авиакомпания"
+    CHILD_OWNER="", CHILD_TABLE="Самолет"
+    P2C_VERB_PHRASE="", C2P_VERB_PHRASE="", 
+    FK_CONSTRAINT="R_3", FK_COLUMNS="id_airline" */
+  SELECT count(*) INTO NUMROWS
+    FROM Авиакомпания
+    WHERE
+      /* %JoinFKPK(:%New,Авиакомпания," = "," AND") */
+      :new.id_airline = Авиакомпания.id_airline;
+  IF (
+    /* %NotnullFK(:%New," IS NOT NULL AND") */
+    :new.id_airline IS NOT NULL AND
+    NUMROWS = 0
+  )
+  THEN
+    raise_application_error(
+      -20007,
+      'Cannot update Самолет because Авиакомпания does not exist.'
+    );
+  END IF;
+
+
+-- ERwin Builtin Trigger
+END;
+/
+
+
+

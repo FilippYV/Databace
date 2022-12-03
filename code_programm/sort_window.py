@@ -1,4 +1,5 @@
 import mysql.connector
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from mysql.connector import Error
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -120,9 +121,10 @@ class Ui_sort_window(object):
         self.retranslateUi(Sort_window)
         QtCore.QMetaObject.connectSlotsByName(Sort_window)
 
-    def retranslateUi(self, Serarch_window):
+    def retranslateUi(self, Sort_window):
         _translate = QtCore.QCoreApplication.translate
-        Serarch_window.setWindowTitle("MainWindow")
+        Sort_window.setWindowTitle("Сортировка")
+        Sort_window.setWindowIcon(QIcon('../static/sort.png'))
         self.label.setText("Из какой таблицы")
         self.label_2.setText("По каким строкам")
         self.pushButton_search.setText("Найти")

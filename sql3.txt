@@ -1,0 +1,304 @@
+-- 1 среднее колисество мест в самолёте авиакомпании
+delimiter |
+create function awg_fuck(name_airine_in varchar (20)) returns int
+deterministic
+	begin
+		declare count integer default 0;
+		select avg(plane.number_of_seats) from airline, plane 
+			where plane.id_airline = airline.id_airline and airline.name = name_airine_in into count;
+		return count;
+	end
+|
+delimiter;
+
+drop function awg_fuck;
+select awg_fuck('Россия');
+
+
+
+-- 2 авиакомпания с наибольшем количеством самолётов
+delimiter |
+create function airline_vis_max_plane(name_airine_in varchar (20)) returns smallint
+deterministic
+	begin
+    declare max_count smallint default 0;
+   select count(id_plane) from plane inner join airline on 
+		plane.id_airline = airline.id_airline  and airline.name like name_airine_in 
+		into max_count;
+	return max_count;
+	end
+|
+delimiter;
+
+drop function airline_vis_max_plane;
+select airline_vis_max_plane('S7');
+
+-- 3 узнать аэропорт назначения по билету
+delimiter |
+create function destination_city_foud_in_id_ticket(id_ticke_in smallint) returns varchar (20)
+deterministic
+	begin
+    declare name_out varchar (20); 
+	select destination_city from route, flight, ticket 
+		where ticket.id_flight = flight.id_flight and flight.id_route = route.id_route
+        and ticket.id_ticket = id_ticke_in into name_out;
+	return name_out;
+	end
+|
+delimiter;
+
+drop function destination_city_foud_in_id_ticket;
+select destination_city_foud_in_id_ticket('3');
+
+
+-- 4 узнать телефон пользователя
+delimiter |
+create function number_user(id_user_in smallint) returns varchar (20)
+deterministic
+	begin
+    declare number_out varchar (20); 
+	select phone from users 
+		where id_user = id_user_in into number_out;
+	return number_out;
+	end
+|
+delimiter;
+
+drop function number_user;
+select number_user('2');
+
+
+-- 5 лучшая авимакомпиния по рейтингу
+delimiter |
+create function best_avia() returns varchar (20)
+deterministic
+	begin
+    declare number_out varchar (20);
+    declare number_in_r smallint; 
+	set number_in_r = (select min(number_in_the_rating) from airline);
+    select name from airline
+		where number_in_the_rating = number_in_r into number_out;
+	return number_out;
+	end
+|
+delimiter;
+
+select airline.name from airline 
+	where (select name, min(number_in_the_rating) from airline);
+
+drop function best_avia;
+select best_avia();
+
+
+-- 6 
+(хранимая процедцра) 
+delimiter //
+CREATE PROCEDURE plain_in_airline ()
+BEGIN
+select airline.name, count(*)
+		from plane inner join airline on 
+			plane.id_airline = airline.id_airline 
+			group by plane.id_airline;
+END
+//
+delimiter ;
+
+call plain_in_airline();
+drop procedure plain_in_airline;
+
+-- 7 
+delimiter //
+CREATE PROCEDURE user_data_int_ticket (id_ticket_in smallint)
+BEGIN
+select passport_user.last_name, passport_user.patronymic, passport_user.first_name, users.email, users.phone 
+from users, passport_user, ticket
+	where ticket.id_ticket = id_ticket_in and 
+    users.id_user = ticket.id_user and 
+    users.id_passport = passport_user.id_passport;
+END
+//
+delimiter ;
+
+CALL user_data_int_ticket('2');
+drop procedure user_data_int_ticket;
+
+
+
+-- 8
+delimiter //
+CREATE PROCEDURE park_avia (id_ticket_in varchar (20))
+BEGIN
+select distinct airline.name, plane.id_plane, plane.stamp, plane.model, 
+	plane.number_of_seats, plane.year_of_release 
+    from plane, airline
+	where airline.name  = id_ticket_in and airline.id_airline = plane.id_airline;
+END
+//
+delimiter ;
+
+CALL park_avia('Россия');
+drop procedure park_avia;
+
+
+-- 9
+delimiter //
+CREATE PROCEDURE rname_column (id_ticket_in smallint)
+BEGIN
+ALTER TABLE airline RENAME COLUMN name TO name_airline;
+END
+//
+delimiter ;
+
+CALL rname_column();
+drop procedure rname_column;
+
+-- 10
+delimiter //
+CREATE PROCEDURE info_reis_id_reis (ticket_id_in smallint)
+BEGIN
+select passport_user.last_name, passport_user.patronymic, passport_user.first_name, 
+	route.destination_city, route.departure_city, seat_number, flight.departure_date, flight.arrival_date,
+    airline.name, plane.stamp ,plane.model 
+		from ticket, users , passport_
+        awg_fuckuser , route , flight, plane, airline
+			where ticket.id_ticket = ticket_id_in and ticket.id_user = users.id_user and 
+				users.id_passport = passport_user.id_passport and ticket.id_flight = flight.id_flight and
+                flight.id_route = route.id_route and ticket.id_plane = plane.id_plane and 
+                plane.id_airline = airline.id_airline;
+END
+//
+delimiter ;
+
+CALL info_reis_id_reis('2');
+drop procedure info_reis_id_reis;
+
+
+-- 11
+delimiter //
+create trigger add_plass_in_phone_number
+before insert
+on users for each row
+begin
+	if (new.phone not like '+%')
+    then 
+    set new.phone = concat('+', new.phone);
+	end if;
+end
+//
+delimiter ;
+
+drop trigger add_plass_in_phone_number;
+
+
+
+INSERT INTO users (id_passport, id_user, email, phone) VALUES
+  ('4', '4','spiridonow@mail.com','+78760327591');
+select * from ticket;
+select * from users; 
+
+select * from passport_user;
+
+DELETE FROM ticket 
+   WHERE id_ticket = 4;
+DELETE FROM users 
+   WHERE id_user = 4;
+
+
+
+-- 12
+delimiter //
+Create trigger random_user_route after insert on users for each row begin
+declare new_user int;
+
+declare new_ticket_new smallint;
+declare new_id_plane smallint;
+declare new_id_flight smallint;
+declare new_seat_number smallint;
+declare new_id_user smallint;
+
+set new_id_user =  (select count(*) from users);
+
+set new_seat_number =  floor(rand() * (1+30-1)+1);
+
+set new_ticket_new =  (select count(*) from ticket) + 1;
+
+set new_id_plane =  (select count(*) from plane);
+set new_id_plane = floor(rand() * (1+new_id_plane-1)+1);
+
+set new_id_flight =  (select count(*) from flight);
+set new_id_flight = floor(rand() * (1+new_id_flight-1)+1);
+
+select max(id_user) into new_user from ticket;
+insert into ticket set id_ticket = new_ticket_new, id_plane = new_id_plane,
+ id_flight = new_id_flight, id_user = new_id_user, seat_number = new_seat_number;
+end //
+delimiter ;
+
+drop trigger random_user_route;
+
+-- 13
+Delimiter \
+Create trigger DeletScore before delete on users for each row begin
+delete from ticket where id_user = old.id_user;
+end \
+Delimiter ;
+
+drop trigger DeletScore;
+
+
+-- 14
+delimiter //
+create trigger check_on
+before insert
+on passport_user for each row
+begin
+	if (new.series not like '[0-9][0-9][0-9][0-9]') or (new.number not like '[0-9][0-9][0-9][0-9][0-9][0-9]')
+    then 
+		set new.id_passport =  concat('+', new.id_passport);
+	end if;
+end
+//
+delimiter ;
+
+drop trigger check_on;
+
+INSERT INTO passport_user (id_passport, last_name, patronymic, first_name, series, number, registration) VALUES 
+('77','Рудакова','Василиса','Данииловна','1111','557353','УФМС ПО ГОР. МОСКВЕ');
+
+DELETE FROM passport_user 
+   WHERE id_passport = 77;
+
+select * from passport_user;
+
+-- 15
+delimiter //
+create trigger update_seats
+before insert
+on ticket for each row
+begin
+	if (new.seat_number not like '[A-Z]%')
+    then 
+		set new.seat_number =  concat('a', new.seat_number);
+	end if;
+end
+//
+delimiter ;
+
+select * from ticket;
+drop trigger update_seats;
+
+
+INSERT INTO users (id_passport, id_user, email, phone) VALUES
+  ('4', '5','spiridonow@mail.com','+78760327591');
+select * from ticket;
+select * from users; 
+
+select * from passport_user;
+
+DELETE FROM ticket 
+   WHERE id_ticket = 5;
+DELETE FROM users 
+   WHERE id_user = 5;
+
+
+

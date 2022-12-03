@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import sys
 from PyQt5 import QtCore, QtWidgets
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
 from add_window_code import Ui_Add_window
 from code_programm.change_window import Ui_Change_Window
@@ -64,10 +65,8 @@ def select_name_table(name_table):
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
-
-
-
         MainWindow.setObjectName("MainWindow")
+        MainWindow.setWindowIcon(QIcon('../static/bd_icon.png'))
         MainWindow.resize(783, 810)
         MainWindow.setLayoutDirection(QtCore.Qt.LeftToRight)
         MainWindow.setStyleSheet("")
@@ -244,7 +243,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        MainWindow.setWindowTitle('Лучший интерфейс')
         self.pushButton.setText(_translate("MainWindow", "Добавить данные"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.Airline_tab), _translate("MainWindow", "Авиакомпании"))
         self.tab_widget.setTabText(self.tab_widget.indexOf(self.Plane_tab), _translate("MainWindow", "Самолёты"))

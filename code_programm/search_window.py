@@ -1,4 +1,5 @@
 import mysql.connector
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTableWidgetItem, QMessageBox
 from mysql.connector import Error
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -127,7 +128,8 @@ class Ui_Serarch_window(object):
 
     def retranslateUi(self, Serarch_window):
         _translate = QtCore.QCoreApplication.translate
-        Serarch_window.setWindowTitle("MainWindow")
+        Serarch_window.setWindowTitle('Поиск')
+        Serarch_window.setWindowIcon(QIcon('../static/serch.png'))
         self.label.setText("Из какой таблицы")
         self.label_2.setText("По каким строкам")
         self.pushButton_search.setText("Найти")
