@@ -63,6 +63,7 @@ def select_name_table(name_table):
     return y
 
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")

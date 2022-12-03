@@ -121,6 +121,7 @@ class Ui_Change_Window(object):
         self.label.setText(_translate("Change_Window", "Измените данные:"))
         self.comboBox_table.currentIndexChanged.connect(self.update_date_table)
         self.pushButton_change.clicked.connect(self.update_data_in_databases)
+        self.pushButton_canseld.clicked.connect(self.clear)
         y = show_tables()
         for i in range(len(y)):
             self.comboBox_table.addItem("")
@@ -138,6 +139,12 @@ class Ui_Change_Window(object):
         self.tableWidget_show_tables.clicked.connect(self.get_data_in_table)
         self.lineEdit_input.setPlaceholderText('Выберете значения')
 
+
+
+    def clear(self):
+        self.lineEdit_input.clear()
+        self.lineEdit_input.setPlaceholderText('Выберете значения')
+        self.update_date_table()
 
     def update_data_in_databases(self):
         try:
