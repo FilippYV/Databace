@@ -1,5 +1,6 @@
-# -*- coding: utf-8 -*-
 import sys
+import mysql.connector
+from mysql.connector import Error
 from PyQt5 import QtCore, QtWidgets
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import *
@@ -7,8 +8,6 @@ from add_window_code import Ui_Add_window
 from code_programm.change_window import Ui_Change_Window
 from code_programm.sort_window import Ui_sort_window
 from dell_window import Ui_Dell_window
-import mysql.connector
-from mysql.connector import Error
 from search_window import Ui_Serarch_window
 from ui_files.sql_line import Ui_Serch_sql
 
@@ -198,6 +197,7 @@ class Ui_MainWindow(object):
         self.route_tableView.clicked.connect(self.update_data)
         self.ticket_tableView.clicked.connect(self.update_data)
         self.users_tableView.clicked.connect(self.update_data)
+        self.flight_tableView.clicked.connect(self.update_data)
         self.pushButton_4.clicked.connect(self.sort_fuck)
         m = self.update_data()
         masssiv = [self.airline_tableView, self.airport_in_tableView,
