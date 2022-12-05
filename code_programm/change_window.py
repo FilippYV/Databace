@@ -19,6 +19,7 @@ def create_connection_mysql_db():
         print("Возникла ошибка: ", db_connection_error)
     return connection_db
 
+
 def show_tables():
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
@@ -30,6 +31,7 @@ def show_tables():
     for i in range(len(y)):
         y[i] = y[i][0]
     return y
+
 
 def describe_table_for_search(name_table):
     conn = create_connection_mysql_db()
@@ -44,6 +46,7 @@ def describe_table_for_search(name_table):
     print(y, '----------------------')
     return y
 
+
 def select_from_table(name_table):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
@@ -54,7 +57,6 @@ def select_from_table(name_table):
     cursors.close()
     print(y)
     return y
-
 
 
 def update_data(name_table, id_name, name_column_to_change, id_value, new_value):
@@ -139,8 +141,6 @@ class Ui_Change_Window(object):
         self.tableWidget_show_tables.clicked.connect(self.get_data_in_table)
         self.lineEdit_input.setPlaceholderText('Выберете значения')
 
-
-
     def clear(self):
         self.lineEdit_input.clear()
         self.lineEdit_input.setPlaceholderText('Выберете значения')
@@ -174,8 +174,6 @@ class Ui_Change_Window(object):
             error.setStandardButtons(QMessageBox.Ok)
             error.exec_()
             print('Ошибка!!!')
-
-
 
     def update_date_table(self):
         y = show_tables()

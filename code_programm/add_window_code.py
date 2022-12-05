@@ -398,29 +398,29 @@ class Ui_Add_window(object):
             error.setStandardButtons(QMessageBox.Ok)
             error.exec_()
             print('Ошибка!!!')
-                # self.conn = self.connection_db
-                # self.cursors = self.conn.cursor()
-                # create_db_sql_query = """select max(id_passport) from passport_user;"""
-                # self.cursors.execute(create_db_sql_query)
-                # max_id = self.cursors.fetchall()
-                # max_id = int(max_id[0][0]) + 1
-                # self.conn.close()
-                # self.cursors.close()
-                #
-                # print(1)
-                # self.conn = self.connection_db
-                # self.cursors = self.conn.cursor()
-                # into = f"""INSERT INTO passport_user (id_passport, last_name,
-                # patronymic, first_name, series, number, registration) VALUES
-                # ('{max_id}','{data[0]}','{data[1]}','{data[2]}',
-                # '{data[3]}','{data[4]}','{data[5]});"""
-                # print(into)
-                # self.cursors.execute(into)
-                # print(3)
-                # # INSERT INTO passport_user (id_passport, last_name, patronymic, first_name, series, number, registration) VALUES
-                # # ('1','Рудакова','Василиса','Данииловна','4506','567353','УФМС ПО ГОР. МОСКВЕ'),
-                # self.conn.close()
-                # self.cursors.close()
+            # self.conn = self.connection_db
+            # self.cursors = self.conn.cursor()
+            # create_db_sql_query = """select max(id_passport) from passport_user;"""
+            # self.cursors.execute(create_db_sql_query)
+            # max_id = self.cursors.fetchall()
+            # max_id = int(max_id[0][0]) + 1
+            # self.conn.close()
+            # self.cursors.close()
+            #
+            # print(1)
+            # self.conn = self.connection_db
+            # self.cursors = self.conn.cursor()
+            # into = f"""INSERT INTO passport_user (id_passport, last_name,
+            # patronymic, first_name, series, number, registration) VALUES
+            # ('{max_id}','{data[0]}','{data[1]}','{data[2]}',
+            # '{data[3]}','{data[4]}','{data[5]});"""
+            # print(into)
+            # self.cursors.execute(into)
+            # print(3)
+            # # INSERT INTO passport_user (id_passport, last_name, patronymic, first_name, series, number, registration) VALUES
+            # # ('1','Рудакова','Василиса','Данииловна','4506','567353','УФМС ПО ГОР. МОСКВЕ'),
+            # self.conn.close()
+            # self.cursors.close()
 
     def output_line_to_add(self):
         self.show_lines()

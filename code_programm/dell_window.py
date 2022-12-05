@@ -172,7 +172,6 @@ class Ui_Dell_window(object):
             self.comboBox_3.addItem("")
             self.comboBox_3.setItemText(i, mass_sing[i])
 
-
     def dell_funck(self):
         try:
             if self.comboBox.currentText() != '' and self.comboBox_2.currentText() != '' \

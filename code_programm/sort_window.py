@@ -22,8 +22,6 @@ def create_connection_mysql_db():
     return connection_db
 
 
-
-
 def select_name_t(name_table, column, sing):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
@@ -184,7 +182,7 @@ class Ui_sort_window(object):
                 name_table = self.comboBox.currentText()
                 column = self.comboBox_2.currentText()
                 sing = self.comboBox_3.currentText()
-                print('('*100)
+                print('(' * 100)
                 print(name_table, column, sing)
                 data = select_name_t(name_table, column, sing)
                 row = len(data) + 1
