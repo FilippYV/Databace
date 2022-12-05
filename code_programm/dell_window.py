@@ -25,7 +25,7 @@ def create_connection_mysql_db():
 def select_name_t(name_table, column, sing, value):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
-    create_db_sql_query = f"""delete from {name_table} where {column} {sing} {value};"""
+    create_db_sql_query = f"""delete from {name_table} where {column} {sing} '{value}';"""
     print(create_db_sql_query)
     cursors.execute(create_db_sql_query)
     otvet = cursors.fetchall()

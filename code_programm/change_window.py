@@ -62,7 +62,7 @@ def select_from_table(name_table):
 def update_data(name_table, id_name, name_column_to_change, id_value, new_value):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
-    create_db_sql_query = f"""UPDATE {name_table} SET {name_column_to_change}={new_value}
+    create_db_sql_query = f"""UPDATE {name_table} SET {name_column_to_change}='{new_value}'
      WHERE {id_name} = {id_value};"""
     print(create_db_sql_query)
     cursors.execute(create_db_sql_query)

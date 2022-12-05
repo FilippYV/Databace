@@ -32,7 +32,7 @@ def select_name_t(name_table, item, column, sing, value):
             strings += ', '
         else:
             strings += ' '
-    create_db_sql_query = f"""select DISTINCT {strings} from {name_table} where {column} {sing} {value};"""
+    create_db_sql_query = f"""select DISTINCT {strings} from {name_table} where {column} {sing} '{value}';"""
     cursors.execute(create_db_sql_query)
     data = cursors.fetchall()
     conn.close()
