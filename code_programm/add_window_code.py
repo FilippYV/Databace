@@ -22,17 +22,6 @@ def create_connection_mysql_db():
     return connection_db
 
 
-def select_max_id(name_table):
-    conn = create_connection_mysql_db()
-    cursors = conn.cursor()
-    create_db_sql_query = f"""select count(*) from {name_table};"""
-    cursors.execute(create_db_sql_query)
-    x = cursors.fetchall()
-    conn.close()
-    cursors.close()
-    return x[0][0] + 1
-
-
 def inster_in_bd(string):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
@@ -46,9 +35,9 @@ def inster_in_bd(string):
 def add_in_passport_user_sql(data):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
-    into = f"""INSERT INTO passport_user (id_passport, last_name,
+    into = f"""INSERT INTO passport_user ( last_name,
        patronymic, first_name, series, numbers, registration) VALUES
-    ('{data[0]}', '{data[1]}', '{data[2]}', '{data[3]}', '{data[4]}', '{data[5]}', '{data[6]}');"""
+    ('{data[1]}', '{data[2]}', '{data[3]}', '{data[4]}', '{data[5]}', '{data[6]}');"""
     cursors.execute(into)
     conn.commit()
     conn.close()
@@ -58,8 +47,8 @@ def add_in_passport_user_sql(data):
 def add_in_user(data):
     conn = create_connection_mysql_db()
     cursors = conn.cursor()
-    into = f"""INSERT INTO users (id_passport, id_user, email, phone) VALUES
-        ('{data[0]}', '{data[0]}', '{data[-2]}', '{data[-1]}');"""
+    into = f"""INSERT INTO users (id_passport, email, phone) VALUES
+        ('{data[0]}', '{data[-2]}', '{data[-1]}');"""
     cursors.execute(into)
     conn.commit()
     conn.close()
@@ -87,12 +76,14 @@ def select_name_t(name_table):
     conn.close()
     cursors.close()
     string = f'INSERT INTO {name_table} ('
-    for i in range(len(y)):
+    for i in range(1, len(y)):
         if i != len(y) - 1:
             string += f'{y[i][0]},'
         else:
             string += f'{y[i][0]}'
+    print(y)
     string += ') values '
+    print(string)
     return string
 
 
@@ -261,8 +252,7 @@ class Ui_Add_window(object):
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '' and \
                         self.lineEdit_add_5.text() != '' and self.lineEdit_add_6.text() != '' and \
                         self.lineEdit_add_7.text() != '' and self.lineEdit_add_8.text() != '':
-                    max_id = select_max_id('passport_user')
-                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(), self.lineEdit_add_3.text(),
+                    data = [self.lineEdit_add.text(), self.lineEdit_add_2.text(), self.lineEdit_add_3.text(),
                             self.lineEdit_add_4.text(), self.lineEdit_add_5.text(), self.lineEdit_add_6.text(),
                             self.lineEdit_add_7.text(), self.lineEdit_add_8.text()]
                     add_in_passport_user_sql(data)
@@ -270,8 +260,7 @@ class Ui_Add_window(object):
             elif self.comboBox_add.currentText() == 'Авиакомпанию':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                    max_id = select_max_id('airline')
-                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                    data = [self.lineEdit_add.text(), self.lineEdit_add_2.text(),
                             self.lineEdit_add_3.text(),
                             self.lineEdit_add_4.text()]
                     string = select_name_t('airline')
@@ -288,8 +277,7 @@ class Ui_Add_window(object):
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '' and \
                         self.lineEdit_add_5.text() != '' and self.lineEdit_add_6.text() != '':
-                    max_id = select_max_id('plane')
-                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                    data = [self.lineEdit_add.text(), self.lineEdit_add_2.text(),
                             self.lineEdit_add_3.text(), self.lineEdit_add_4.text(),
                             self.lineEdit_add_5.text(), self.lineEdit_add_6.text()]
                     string = select_name_t('plane')
@@ -305,8 +293,7 @@ class Ui_Add_window(object):
             elif self.comboBox_add.currentText() == 'Аэропорт вылета':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                    max_id = select_max_id('airport_out')
-                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                    data = [self.lineEdit_add.text(), self.lineEdit_add_2.text(),
                             self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
                     string = select_name_t('airport_out')
                     string += ' ( '
@@ -321,8 +308,7 @@ class Ui_Add_window(object):
             elif self.comboBox_add.currentText() == 'Аэропорт назначения':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                    max_id = select_max_id('airport_in')
-                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                    data = [self.lineEdit_add.text(), self.lineEdit_add_2.text(),
                             self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
                     string = select_name_t('airport_in')
                     string += ' ( '
@@ -337,8 +323,7 @@ class Ui_Add_window(object):
             elif self.comboBox_add.currentText() == 'Маршрут':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                    max_id = select_max_id('route')
-                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                    data = [self.lineEdit_add.text(), self.lineEdit_add_2.text(),
                             self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
                     string = select_name_t('route')
                     string += ' ( '
@@ -353,8 +338,7 @@ class Ui_Add_window(object):
             elif self.comboBox_add.currentText() == 'Рейс':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '':
-                    max_id = select_max_id('flight')
-                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                    data = [self.lineEdit_add.text(), self.lineEdit_add_2.text(),
                             self.lineEdit_add_3.text()]
                     string = select_name_t('flight')
                     string += ' ( '
@@ -369,8 +353,7 @@ class Ui_Add_window(object):
             elif self.comboBox_add.currentText() == 'Билет':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
-                    max_id = select_max_id('ticket')
-                    data = [max_id, self.lineEdit_add.text(), self.lineEdit_add_2.text(),
+                    data = [self.lineEdit_add.text(), self.lineEdit_add_2.text(),
                             self.lineEdit_add_3.text(), self.lineEdit_add_4.text()]
                     string = select_name_t('ticket')
                     string += ' ( '
@@ -388,7 +371,6 @@ class Ui_Add_window(object):
             ok.setIcon(QMessageBox.Information)
             ok.setStandardButtons(QMessageBox.Ok)
             ok.exec_()
-            print('Ошибка!!!')
         except:
             print(1)
             error = QMessageBox()
@@ -398,29 +380,7 @@ class Ui_Add_window(object):
             error.setStandardButtons(QMessageBox.Ok)
             error.exec_()
             print('Ошибка!!!')
-                # self.conn = self.connection_db
-                # self.cursors = self.conn.cursor()
-                # create_db_sql_query = """select max(id_passport) from passport_user;"""
-                # self.cursors.execute(create_db_sql_query)
-                # max_id = self.cursors.fetchall()
-                # max_id = int(max_id[0][0]) + 1
-                # self.conn.close()
-                # self.cursors.close()
-                #
-                # print(1)
-                # self.conn = self.connection_db
-                # self.cursors = self.conn.cursor()
-                # into = f"""INSERT INTO passport_user (id_passport, last_name,
-                # patronymic, first_name, series, number, registration) VALUES
-                # ('{max_id}','{data[0]}','{data[1]}','{data[2]}',
-                # '{data[3]}','{data[4]}','{data[5]});"""
-                # print(into)
-                # self.cursors.execute(into)
-                # print(3)
-                # # INSERT INTO passport_user (id_passport, last_name, patronymic, first_name, series, number, registration) VALUES
-                # # ('1','Рудакова','Василиса','Данииловна','4506','567353','УФМС ПО ГОР. МОСКВЕ'),
-                # self.conn.close()
-                # self.cursors.close()
+
 
     def output_line_to_add(self):
         self.show_lines()

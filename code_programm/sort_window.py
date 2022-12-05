@@ -143,9 +143,10 @@ class Ui_sort_window(object):
         self.listWidget.hide()
 
     def clear_fuck(self):
-        self.comboBox_2.clear()
-        self.comboBox_3.clear()
         self.listWidget.clear()
+        self.tableView.clear()
+        self.tableView.setColumnCount(0)
+        self.tableView.setRowCount(0)
 
     def output_line_to_search(self):
         try:

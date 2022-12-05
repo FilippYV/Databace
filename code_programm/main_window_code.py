@@ -62,7 +62,6 @@ def select_name_table(name_table):
     return y
 
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -104,9 +103,9 @@ class Ui_MainWindow(object):
         self.pushButton_change = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_change.setObjectName("pushButton_change")
         self.gridLayout.addWidget(self.pushButton_change, 0, 2, 1, 1)
-        self.pushButton_coman_line = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_coman_line.setObjectName("pushButton_coman_line")
-        self.gridLayout.addWidget(self.pushButton_coman_line, 1, 2, 1, 1)
+        self.pushButton_exit = QtWidgets.QPushButton(self.centralwidget)
+        self.pushButton_exit.setObjectName("pushButton_coman_line")
+        self.gridLayout.addWidget(self.pushButton_exit, 1, 2, 1, 1)
         self.gridLayout_4 = QtWidgets.QGridLayout(self.Plane_tab)
         self.gridLayout_4.setObjectName("gridLayout_4")
         self.plane_tableView = QtWidgets.QTableWidget(self.Plane_tab)
@@ -219,10 +218,6 @@ class Ui_MainWindow(object):
                 for j in range(len(x[i])):
                     masssiv[k].setItem(i + 1, j, QTableWidgetItem(str(x[i][j])))
 
-
-
-
-
     def update_data(self):
         masssiv = [self.airline_tableView, self.airport_in_tableView,
                    self.airport_out_tableView, self.flight_tableView,
@@ -263,32 +258,27 @@ class Ui_MainWindow(object):
         self.pushButton_2.setText(_translate("MainWindow", "Удалить данные"))
         # self.pushButton_coman_line.setText(_translate("MainWindow", "Comandline"))
         self.pushButton_change.setText(_translate("MainWindow", "Заменить"))
+        self.pushButton_exit.setText(_translate("MainWindow", "Выйти"))
         self.pushButton_change.clicked.connect(self.change_fuck)
-
-
+        self.pushButton_exit.clicked.connect(close)
 
     def change_fuck(self):
-        self.change = QtWidgets.QMainWindow()
+        self.Change_winodw = QtWidgets.QMainWindow()
         self.ui_change = Ui_Change_Window()
-        self.ui_change.setupUi_change(self.change)
-        self.change.show()
+        self.ui_change.setupUi_change(self.Change_winodw)
+        self.Change_winodw.show()
 
     def sort_fuck(self):
-        self.sorts = QtWidgets.QMainWindow()
+        self.Sorts_window = QtWidgets.QMainWindow()
         self.ui_sort = Ui_sort_window()
-        self.ui_sort.setupUi_sort(self.sorts)
-        self.sorts.show()
+        self.ui_sort.setupUi_sort(self.Sorts_window)
+        self.Sorts_window.show()
 
-    def sql_line_fuck(self):
-        self.sqlline = QtWidgets.QMainWindow()
-        self.ui_line = Ui_Serch_sql()
-        self.ui_line.setupUi_line(self.sqlline)
-        self.sqlline.show()
     def add_fuck(self):
-        self.add_Window = QtWidgets.QMainWindow()
+        self.Add_Window = QtWidgets.QMainWindow()
         self.ui_add = Ui_Add_window()
-        self.ui_add.setupUi_add(self.add_Window)
-        self.add_Window.show()
+        self.ui_add.setupUi_add(self.Add_Window)
+        self.Add_Window.show()
 
     def dell_fuck(self):
         self.Dell_window = QtWidgets.QMainWindow()
@@ -303,14 +293,15 @@ class Ui_MainWindow(object):
         self.Search_window.show()
 
 
-def open_main_window():
+def close():
+    sys.exit(app.exec_())
+
+
+
+if __name__ == '__main__':
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
-
-if __name__ == '__main__':
-    open_main_window()

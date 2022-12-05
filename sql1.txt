@@ -140,64 +140,64 @@ describe route; describe user; describe ticket;
 
 
 13
-INSERT INTO passport_user (id_passport, last_name, patronymic, first_name, series, numbers, registration) VALUES 
-('1','Рудакова','Василиса','Данииловна','4506','567353','УФМС ПО ГОР. МОСКВЕ'),
-('2','Волошина','Диана','Никитична','4501','758624','УФМС ПО ГОР. МОСКВЕ'),
-('3','Волков','Богдан','Фёдорович','4503','908905','УФМС ПО ГОР. МОСКВЕ');
+INSERT INTO passport_user (last_name, patronymic, first_name, series, numbers, registration) VALUES 
+('Рудакова','Василиса','Данииловна','4506','567353','УФМС ПО ГОР. МОСКВЕ'),
+('Волошина','Диана','Никитична','4501','758624','УФМС ПО ГОР. МОСКВЕ'),
+('Волков','Богдан','Фёдорович','4503','908905','УФМС ПО ГОР. МОСКВЕ');
 
 
-INSERT INTO users (id_passport, id_user, email, phone) VALUES 
-('1', '1','redacova@yandex.ru','+78760320829'),
-('2', '2','volshina@gmail.com','+78760325436'),
-('3', '3','volkow@mail.com','+78760327591');
+INSERT INTO users (id_passport,  email, phone) VALUES 
+('1', 'redacova@yandex.ru','+78760320829'),
+('2', 'volshina@gmail.com','+78760325436'),
+('3', 'volkow@mail.com','+78760327591');
 
 
-INSERT INTO airline (id_airline, name, phone, website, number_in_the_rating) VALUES 
-('1','Россия','+74951397777', 'https://www.rossiya-airlines.com','2'),
-('2','Аэрофлот','+78004445555', 'https://www.aeroflot.ru', '1'),
-('3','S7','+74957830707', 'https://www.s7.ru', '3');
+INSERT INTO airline ( name, phone, website, number_in_the_rating) VALUES 
+('Россия','+74951397777', 'https://www.rossiya-airlines.com','2'),
+('Аэрофлот','+78004445555', 'https://www.aeroflot.ru', '1'),
+('S7','+74957830707', 'https://www.s7.ru', '3');
 
 
-INSERT INTO airport_out (id_departure_airport, address, phone, website, name) VALUES 
-('1','Москва, посёлок Внуково, 2-я Рейсовая улица, 2','+74954364388', 'https://www.vnukovo.ru','Внуково'),
-('2','Санкт-Петербург, Пулковское шоссе, 41, лит.ЗА','+78123243000', 'https://pulkovoairport.ru', 'Пулково'),
-('3','Аэропорт г.Сочи, Мира, 50, Сочи.','+78003011991', 'https://aer.aero', 'Сочи');
-
-
-
-INSERT INTO airport_in (id_destination_airport, address, phone, website, name) VALUES 
-('1','Санкт-Петербург, Пулковское шоссе, 41, лит.ЗА','+78123243000', 'https://pulkovoairport.ru', 'Пулково'),
-('2','Аэропорт г.Сочи, Мира, 50, Сочи.','+78003011991', 'https://aer.aero', 'Сочи'),
-('3','Москва, посёлок Внуково, 2-я Рейсовая улица, 2','+74954364388', 'https://www.vnukovo.ru','Внуково');
+INSERT INTO airport_out (address, phone, website, name) VALUES 
+('Москва, посёлок Внуково, 2-я Рейсовая улица, 2','+74954364388', 'https://www.vnukovo.ru','Внуково'),
+('Санкт-Петербург, Пулковское шоссе, 41, лит.ЗА','+78123243000', 'https://pulkovoairport.ru', 'Пулково'),
+('Аэропорт г.Сочи, Мира, 50, Сочи.','+78003011991', 'https://aer.aero', 'Сочи');
 
 
 
-INSERT INTO route (id_route, id_destination_airport, id_departure_airport, departure_city, destination_city) VALUES 
-('1','1','1', 'Москва', 'Санкт-Петербург'),
-('2','2','2', 'Санкт-Петербург', 'Сочи'),
-('3','3','3', 'Сочи', 'Москва');
+INSERT INTO airport_in (address, phone, website, name) VALUES 
+('Санкт-Петербург, Пулковское шоссе, 41, лит.ЗА','+78123243000', 'https://pulkovoairport.ru', 'Пулково'),
+('Аэропорт г.Сочи, Мира, 50, Сочи.','+78003011991', 'https://aer.aero', 'Сочи'),
+('Москва, посёлок Внуково, 2-я Рейсовая улица, 2','+74954364388', 'https://www.vnukovo.ru','Внуково');
+
+
+
+INSERT INTO route (id_destination_airport, id_departure_airport, departure_city, destination_city) VALUES 
+('1','1', 'Москва', 'Санкт-Петербург'),
+('2','2', 'Санкт-Петербург', 'Сочи'),
+('3','3', 'Сочи', 'Москва');
 
 
 
 
-INSERT INTO plane (id_plane, service_life, year_of_release, number_of_seats, stamp, model, id_airline) VALUES 
-('1','1000 мот/часов','2012-03-14', 150, 'Аirbus', 'A320', '1'),
-('2','1500 мот/часов','2015-12-07', 120,'Аirbus', 'A319', '2'),
-('3','1200 мот/часов','2017-11-29', 210,'Boing', '747', '3');
+INSERT INTO plane ( service_life, year_of_release, number_of_seats, stamp, model, id_airline) VALUES 
+('1000 мот/часов','2012-03-14', 150, 'Аirbus', 'A320', '1'),
+('1500 мот/часов','2015-12-07', 120,'Аirbus', 'A319', '2'),
+('1200 мот/часов','2017-11-29', 210,'Boing', '747', '3');
 
 
 
-INSERT INTO flight (id_flight, id_route, departure_date, arrival_date) VALUES 
-('1','1','2021-11-16 01:20:00', '2021-11-16 02:15:00'),
-('2','2','2021-11-16 03:55:00', '2021-11-16 06:45:00'),
-('3','3','2021-11-16 03:55:00', '2021-11-16 05:45:00');
+INSERT INTO flight (id_route, departure_date, arrival_date) VALUES 
+('1','2021-11-16 01:20:00', '2021-11-16 02:15:00'),
+('2','2021-11-16 03:55:00', '2021-11-16 06:45:00'),
+('3','2021-11-16 03:55:00', '2021-11-16 05:45:00');
 
 
 
-INSERT INTO ticket (id_ticket, id_plane, id_flight, seat_number, id_user) VALUES 
-('1','1','1',  'a3', '1'),
-('2','2','2', 'b15', '2'),
-('3','3','3', 'c43', '3');
+INSERT INTO ticket ( id_plane, id_flight, seat_number, id_user) VALUES 
+('1','1',  'a3', '1'),
+('2','2', 'b15', '2'),
+('3','3', 'c43', '3');
 
 
 

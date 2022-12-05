@@ -252,7 +252,7 @@ create trigger check_on
 before insert
 on passport_user for each row
 begin
-	if (new.series not like '[0-9][0-9][0-9][0-9]') or (new.number not like '[0-9][0-9][0-9][0-9][0-9][0-9]')
+	if (new.series not like '____') or (new.number not like '______')
     then 
 		set new.id_passport =  concat('+', new.id_passport);
 	end if;
@@ -278,7 +278,7 @@ on ticket for each row
 begin
 	if (new.seat_number not like '[A-Z]%')
     then 
-		set new.seat_number =  concat('a', new.seat_number);
+		set new.seat_number =  concat('A', new.seat_number);
 	end if;
 end
 //
