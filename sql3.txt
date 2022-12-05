@@ -252,7 +252,7 @@ create trigger check_on
 before insert
 on passport_user for each row
 begin
-	if (new.series not like '____') or (new.number not like '______')
+	if (new.series not like '____') or (new.numbers not like '______')
     then 
 		set new.id_passport =  concat('+', new.id_passport);
 	end if;
