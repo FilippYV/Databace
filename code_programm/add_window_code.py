@@ -1,6 +1,7 @@
 import sys
 
 import mysql.connector
+from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QMessageBox
 from mysql.connector import Error
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -240,6 +241,7 @@ class Ui_Add_window(object):
         self.pushButton_add.setText(_translate("Add_window", "Добавить"))
         self.pushButton_clear.setText(_translate("Add_window", "Очистить"))
         self.lineEdit_add_9.hide()
+        Add_window.setWindowIcon(QIcon('../static/plus.png'))
 
     def clear_lineedit(self):
         self.lineEdit_add.clear()

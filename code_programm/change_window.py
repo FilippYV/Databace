@@ -124,6 +124,7 @@ class Ui_Change_Window(object):
         self.comboBox_table.currentIndexChanged.connect(self.update_date_table)
         self.pushButton_change.clicked.connect(self.update_data_in_databases)
         self.pushButton_canseld.clicked.connect(self.clear)
+        self.tableWidget_show_tables.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Fixed)
         y = show_tables()
         for i in range(len(y)):
             self.comboBox_table.addItem("")
