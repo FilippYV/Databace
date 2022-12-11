@@ -291,8 +291,6 @@ class Ui_MainWindow(object):
         self.ui_search = Ui_Serarch_window()
         self.ui_search.setupUi_search(self.Search_window)
         self.Search_window.show()
-
-
 def close():
     sys.exit(app.exec_())
 
