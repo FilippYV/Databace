@@ -8,8 +8,7 @@ deterministic
 			where plane.id_airline = airline.id_airline and airline.name = name_airine_in into count;
 		return count;
 	end
-|
-delimiter;
+|delimiter;
 
 drop function awg_fuck;
 select awg_fuck('Россия');
@@ -20,9 +19,9 @@ select awg_fuck('Россия');
 delimiter |
 create function airline_vis_max_plane(name_airine_in varchar (20)) returns smallint
 deterministic
-	begin
-    declare max_count smallint default 0;
-   select count(id_plane) from plane inner join airline on 
+begin
+	declare max_count smallint default 0;
+	select count(id_plane) from plane inner join airline on 
 		plane.id_airline = airline.id_airline  and airline.name like name_airine_in 
 		into max_count;
 	return max_count;
@@ -166,8 +165,7 @@ select passport_user.last_name, passport_user.patronymic, passport_user.first_na
                 flight.id_route = route.id_route and ticket.id_plane = plane.id_plane and 
                 plane.id_airline = airline.id_airline;
 END
-//
-delimiter ;
+// delimiter ;
 
 CALL info_reis_id_reis('2');
 drop procedure info_reis_id_reis;
@@ -192,7 +190,7 @@ drop trigger add_plass_in_phone_number;
 
 
 INSERT INTO users (id_passport, id_user, email, phone) VALUES
-  ('4', '4','spiridonow@mail.com','+78760327591');
+  ('4', '12','spiridonow@mail.com','78760327591');
 select * from ticket;
 select * from users; 
 
