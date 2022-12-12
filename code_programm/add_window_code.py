@@ -267,7 +267,21 @@ class Ui_Add_window(object):
                             self.lineEdit_add_7.text(), self.lineEdit_add_8.text()]
                     add_in_passport_user_sql(data)
                     add_in_user(data)
-            elif self.comboBox_add.currentText() == 'Авиакомпанию':
+                    ok = QMessageBox()
+                    ok.setWindowTitle("Добавление")
+                    ok.setText("Вы добавили данные!")
+                    ok.setIcon(QMessageBox.Information)
+                    ok.setStandardButtons(QMessageBox.Ok)
+                    ok.exec_()
+                    print('Добавилось!!!')
+                else:
+                    error = QMessageBox()
+                    error.setWindowTitle("Ошибка")
+                    error.setText("Некоректные данные для ввода!")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setStandardButtons(QMessageBox.Ok)
+                    error.exec_()
+            if self.comboBox_add.currentText() == 'Авиакомпанию':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
                     max_id = select_max_id('airline')
@@ -284,7 +298,21 @@ class Ui_Add_window(object):
                     string += ');'
                     print(string)
                     inster_in_bd(string)
-            elif self.comboBox_add.currentText() == 'Самолёт':
+                    ok = QMessageBox()
+                    ok.setWindowTitle("Добавление")
+                    ok.setText("Вы добавили данные!")
+                    ok.setIcon(QMessageBox.Information)
+                    ok.setStandardButtons(QMessageBox.Ok)
+                    ok.exec_()
+                    print('Добавилось!!!')
+                else:
+                    error = QMessageBox()
+                    error.setWindowTitle("Ошибка")
+                    error.setText("Некоректные данные для ввода!")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setStandardButtons(QMessageBox.Ok)
+                    error.exec_()
+            if self.comboBox_add.currentText() == 'Самолёт':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '' and \
                         self.lineEdit_add_5.text() != '' and self.lineEdit_add_6.text() != '':
@@ -302,7 +330,21 @@ class Ui_Add_window(object):
                     string += ');'
                     print(string)
                     inster_in_bd(string)
-            elif self.comboBox_add.currentText() == 'Аэропорт вылета':
+                    ok = QMessageBox()
+                    ok.setWindowTitle("Добавление")
+                    ok.setText("Вы добавили данные!")
+                    ok.setIcon(QMessageBox.Information)
+                    ok.setStandardButtons(QMessageBox.Ok)
+                    ok.exec_()
+                    print('Добавилось!!!')
+                else:
+                    error = QMessageBox()
+                    error.setWindowTitle("Ошибка")
+                    error.setText("Некоректные данные для ввода!")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setStandardButtons(QMessageBox.Ok)
+                    error.exec_()
+            if self.comboBox_add.currentText() == 'Аэропорт вылета':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
                     max_id = select_max_id('airport_out')
@@ -318,7 +360,21 @@ class Ui_Add_window(object):
                     string += ');'
                     print(string)
                     inster_in_bd(string)
-            elif self.comboBox_add.currentText() == 'Аэропорт назначения':
+                    ok = QMessageBox()
+                    ok.setWindowTitle("Добавление")
+                    ok.setText("Вы добавили данные!")
+                    ok.setIcon(QMessageBox.Information)
+                    ok.setStandardButtons(QMessageBox.Ok)
+                    ok.exec_()
+                    print('Добавилось!!!')
+                else:
+                    error = QMessageBox()
+                    error.setWindowTitle("Ошибка")
+                    error.setText("Некоректные данные для ввода!")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setStandardButtons(QMessageBox.Ok)
+                    error.exec_()
+            if self.comboBox_add.currentText() == 'Аэропорт назначения':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
                     max_id = select_max_id('airport_in')
@@ -334,7 +390,21 @@ class Ui_Add_window(object):
                     string += ');'
                     print(string)
                     inster_in_bd(string)
-            elif self.comboBox_add.currentText() == 'Маршрут':
+                    ok = QMessageBox()
+                    ok.setWindowTitle("Добавление")
+                    ok.setText("Вы добавили данные!")
+                    ok.setIcon(QMessageBox.Information)
+                    ok.setStandardButtons(QMessageBox.Ok)
+                    ok.exec_()
+                    print('Добавилось!!!')
+                else:
+                    error = QMessageBox()
+                    error.setWindowTitle("Ошибка")
+                    error.setText("Некоректные данные для ввода!")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setStandardButtons(QMessageBox.Ok)
+                    error.exec_()
+            if self.comboBox_add.currentText() == 'Маршрут':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
                     max_id = select_max_id('route')
@@ -350,7 +420,21 @@ class Ui_Add_window(object):
                     string += ');'
                     print(string)
                     inster_in_bd(string)
-            elif self.comboBox_add.currentText() == 'Рейс':
+                    ok = QMessageBox()
+                    ok.setWindowTitle("Добавление")
+                    ok.setText("Вы добавили данные!")
+                    ok.setIcon(QMessageBox.Information)
+                    ok.setStandardButtons(QMessageBox.Ok)
+                    ok.exec_()
+                    print('Добавилось!!!')
+                else:
+                    error = QMessageBox()
+                    error.setWindowTitle("Ошибка")
+                    error.setText("Некоректные данные для ввода!")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setStandardButtons(QMessageBox.Ok)
+                    error.exec_()
+            if self.comboBox_add.currentText() == 'Рейс':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '':
                     max_id = select_max_id('flight')
@@ -366,7 +450,21 @@ class Ui_Add_window(object):
                     string += ');'
                     print(string)
                     inster_in_bd(string)
-            elif self.comboBox_add.currentText() == 'Билет':
+                    ok = QMessageBox()
+                    ok.setWindowTitle("Добавление")
+                    ok.setText("Вы добавили данные!")
+                    ok.setIcon(QMessageBox.Information)
+                    ok.setStandardButtons(QMessageBox.Ok)
+                    ok.exec_()
+                    print('Добавилось!!!')
+                else:
+                    error = QMessageBox()
+                    error.setWindowTitle("Ошибка")
+                    error.setText("Некоректные данные для ввода!")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setStandardButtons(QMessageBox.Ok)
+                    error.exec_()
+            if self.comboBox_add.currentText() == 'Билет':
                 if self.lineEdit_add.text() != '' and self.lineEdit_add_2.text() != '' and \
                         self.lineEdit_add_3.text() != '' and self.lineEdit_add_4.text() != '':
                     max_id = select_max_id('ticket')
@@ -382,13 +480,20 @@ class Ui_Add_window(object):
                     string += ');'
                     print(string)
                     inster_in_bd(string)
-            ok = QMessageBox()
-            ok.setWindowTitle("Добавление")
-            ok.setText("Вы добавили данные!")
-            ok.setIcon(QMessageBox.Information)
-            ok.setStandardButtons(QMessageBox.Ok)
-            ok.exec_()
-            print('Ошибка!!!')
+                    ok = QMessageBox()
+                    ok.setWindowTitle("Добавление")
+                    ok.setText("Вы добавили данные!")
+                    ok.setIcon(QMessageBox.Information)
+                    ok.setStandardButtons(QMessageBox.Ok)
+                    ok.exec_()
+                    print('Добавилось!!!')
+                else:
+                    error = QMessageBox()
+                    error.setWindowTitle("Ошибка")
+                    error.setText("Некоректные данные для ввода!")
+                    error.setIcon(QMessageBox.Warning)
+                    error.setStandardButtons(QMessageBox.Ok)
+                    error.exec_()
         except:
             print(1)
             error = QMessageBox()
